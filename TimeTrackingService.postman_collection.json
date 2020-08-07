@@ -11,15 +11,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/api/getUsers",
+					"raw": "https://localhost:26038/user/get",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "26038",
 					"path": [
-						"api",
-						"getUsers"
+						"user",
+						"get"
 					]
 				}
 			},
@@ -28,11 +28,11 @@
 		{
 			"name": "UpdateUser",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\":1,\n\t\"email\":\"CHANGEDUSER@email.com\",\n\t\"firstname\":\"user2\",\n    \"surname\":\"surname1\",\n    \"patronymic\":\"patronymic1\"\n}",
+					"raw": "{\n    \"id\":27,\n\t\"email\":\"CHANGEDUSER8@email.com\",\n\t\"firstname\":\"user2\",\n    \"surname\":\"surname1\",\n    \"patronymic\":\"patronymic1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -40,15 +40,15 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:26038/api/updateUser",
+					"raw": "https://localhost:26038/user/update",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "26038",
 					"path": [
-						"api",
-						"updateUser"
+						"user",
+						"update"
 					]
 				}
 			},
@@ -61,7 +61,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\":\"use@email.com\",\n\t\"firstname\":\"user2\",\n    \"surname\":\"surname1\",\n    \"patronymic\":\"patronymic1\"\n}",
+					"raw": "{\n    \"email\":\"user5@user.net\",\n\t\"firstname\":\"firstname\",\n    \"surname\":\"surname\",\n    \"patronymic\":\"patronymic\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -69,15 +69,15 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:26038/api/createUser",
+					"raw": "https://localhost:26038/user/create",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "26038",
 					"path": [
-						"api",
-						"createUser"
+						"user",
+						"create"
 					]
 				}
 			},
@@ -89,16 +89,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/api/deleteUser/12",
+					"raw": "https://localhost:26038/user/delete/28",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "26038",
 					"path": [
-						"api",
-						"deleteUser",
-						"12"
+						"user",
+						"delete",
+						"28"
 					]
 				}
 			},
@@ -111,7 +111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"note\":\"note1\",\n    \"hours\":20,\n    \"date\":\"2020-01-06T17:16:40\",\n    \"userid\":13\n}",
+					"raw": "{\n    \"note\":\"note1\",\n    \"hours\":2,\n    \"date\":\"2019-01-06T17:16:40\",\n    \"userid\":27\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,15 +119,15 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:26038/api/addreport",
+					"raw": "https://localhost:26038/report/add",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "26038",
 					"path": [
-						"api",
-						"addreport"
+						"report",
+						"add"
 					]
 				}
 			},
@@ -139,7 +139,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/report/get?userid=13&month=1&year=2020",
+					"raw": "https://localhost:26038/report/get?userid=27&month=1&year=2019",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -152,7 +152,7 @@
 					"query": [
 						{
 							"key": "userid",
-							"value": "13"
+							"value": "27"
 						},
 						{
 							"key": "month",
@@ -160,7 +160,7 @@
 						},
 						{
 							"key": "year",
-							"value": "2020"
+							"value": "2019"
 						}
 					]
 				}
@@ -173,7 +173,17 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "https://localhost:26038/report/delete/12",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "26038",
+					"path": [
+						"report",
+						"delete",
+						"12"
+					]
 				}
 			},
 			"response": []
@@ -183,8 +193,26 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":11,\n\t\"userid\":24,\n    \"note\":\"changedNote\",\n    \"hours\":1,\n    \"date\":\"2019-01-06T17:16:40\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "https://localhost:26038/report/update",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "26038",
+					"path": [
+						"report",
+						"update"
+					]
 				}
 			},
 			"response": []
