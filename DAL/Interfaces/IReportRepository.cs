@@ -7,6 +7,7 @@ namespace DAL.Interfaces
         void Add(T item);
         void Update(T item);
         void Delete(int id);
+        void DeleteByUser(int userId);
         T GetById(int id);
         IEnumerable<T> GetByUserAndDate(int userId, int month, int year);
         IEnumerable<T> GetByUserId(int userId);

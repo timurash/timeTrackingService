@@ -2,6 +2,7 @@
 using DAL.Interfaces;
 using DAL.EF;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -14,7 +15,11 @@ namespace DAL.Repositories
         public EFUnitOfWork()
         {
             db = new UsersContext();
-            
+        }
+
+        public EFUnitOfWork(UsersContext context)
+        {
+            db = context;
         }
 
         public IUserRepository<User> Users

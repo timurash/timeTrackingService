@@ -17,57 +17,33 @@ namespace BLL.Services
             Database = uow;
         }
 
-        //  добавление отчета
+        /// <summary>
+        /// добавление отчета
+        /// </summary>
         public void AddReport(ReportDTO reportDTO)
         {
-            if (reportDTO.UserId == null)
-                throw new ValidationException("Поле Id пользователя обязательно", "");
-
             User user = Database.Users.Get(reportDTO.UserId.Value);
 
             if (user == null)
                 throw new ValidationException("Пользователь не найден", "");
 
-            if (reportDTO.Date == null)
-                throw new ValidationException("Поле даты обязательно", "");
-
-            if (reportDTO.Hours == null)
-                throw new ValidationException("Поле часов обязательно", "");
-
-            if (reportDTO.Note == null)
-                throw new ValidationException("Поле примечания обязательно", "");
-
-            Report report = new Report
-            {
-                UserId = reportDTO.UserId.Value,
-                Note = reportDTO.Note,
-                Hours = reportDTO.Hours.Value,
-                Date = reportDTO.Date.Value
-            };
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ReportDTO, Report>()).CreateMapper();
+            Report report = mapper.Map<ReportDTO, Report>(reportDTO);
 
             Database.Reports.Add(report);
             Database.Save();
         }
 
-        // обновление отчета
+        /// <summary>
+        /// обновление отчета
+        /// </summary>
         public void UpdateReport(ReportDTO reportDTO)
         {
-            if (reportDTO.UserId == null)
-                throw new ValidationException("Поле Id пользователя обязательно", "");
 
             User user = Database.Users.Get(reportDTO.UserId.Value);
 
             if (user == null)
                 throw new ValidationException("Пользователь не найден", "");
-
-            if (reportDTO.Date == null)
-                throw new ValidationException("Поле даты обязательно", "");
-
-            if (reportDTO.Hours == null)
-                throw new ValidationException("Поле часов обязательно", "");
-
-            if (reportDTO.Note == null || reportDTO.Note == "")
-                throw new ValidationException("Поле примечания обязательно", "");
 
             Report report = Database.Reports.GetById(reportDTO.Id.Value);
 
@@ -83,7 +59,9 @@ namespace BLL.Services
             Database.Save();
         }
 
-        // удаление отчета
+        /// <summary>
+        /// удаление отчета
+        /// </summary>
         public void DeleteReport(int? reportId)
         {
             if (reportId == null)
@@ -97,8 +75,9 @@ namespace BLL.Services
             Database.Reports.Delete(reportId.Value);
             Database.Save();
         }
-
-        // метод получения списка отчетов пользователя за указанный месяц
+        /// <summary>
+        /// метод получения списка отчетов пользователя за указанный месяц
+        /// </summary>
         public IEnumerable<ReportDTO> Get(ReportFilterDTO reportFilterDTO)
         {
             if (reportFilterDTO.UserId == null)

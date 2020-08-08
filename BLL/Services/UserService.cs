@@ -17,22 +17,15 @@ namespace BLL.Services
             Database = uow;
         }
 
-        // создание пользователя
+        /// <summary>
+        /// создание пользователя
+        /// </summary>
         public void CreateUser(UserDTO userDTO)
         {
-            if (userDTO.Email == "" || userDTO.Email == null)
-                throw new ValidationException("Поле E-mail обязательно", "");
-
             User user = Database.Users.Find(userDTO.Email);
 
             if (user != null)
                 throw new ValidationException("Пользователь с таким E-mail уже существует", "");
-
-            if (userDTO.Firstname == "" || userDTO.Firstname == null)
-                throw new ValidationException("Поле имени обязательно", "");
-
-            if (userDTO.Surname == "" || userDTO.Surname == null)
-                throw new ValidationException("Поле фамилии обязательно", "");
 
             user = new User
             {
@@ -46,28 +39,21 @@ namespace BLL.Services
             Database.Save();
         }
 
-        // обновление данных о пользователе
+        /// <summary>
+        /// обновление данных о пользователе
+        /// </summary>
         public void UpdateUser(UserDTO userDTO)
         {
-            if (userDTO.Email == "" || userDTO.Email == null)
-                throw new ValidationException("Поле E-mail обязательно", "");
-
-            User user = Database.Users.Find(userDTO.Email);
-
-            if (user != null && userDTO.Id != user.Id)
-                throw new ValidationException("Другой пользователь с таким E-mail уже существует", "");
-
-            if (userDTO.Firstname == "" || userDTO.Firstname == null)
-                throw new ValidationException("Поле имени обязательно", "");
-
-            if (userDTO.Surname == "" || userDTO.Surname == null)
-                throw new ValidationException("Поле фамилии обязательно", "");
-
-            user = Database.Users.Get(userDTO.Id);
+            User user = Database.Users.Get(userDTO.Id);
 
             if (user == null)
                 throw new ValidationException("Пользователь не найден", "");
-            
+
+            User user2 = Database.Users.Find(userDTO.Email);
+
+            if (user2 != null && userDTO.Id != user2.Id)
+                throw new ValidationException("Другой пользователь с таким E-mail уже существует", "");
+
             user.Email = userDTO.Email;
             user.Firstname = userDTO.Firstname;
             user.Surname = userDTO.Surname;
@@ -77,23 +63,18 @@ namespace BLL.Services
             Database.Save();
         }
 
-        // удаление пользователя
+        /// <summary>
+        /// удаление пользователя
+        /// </summary>
         public void DeleteUser(int? userId)
         {
-            if (userId == null)
-                throw new ValidationException("Id пользователя не установлено", "");
-
             User user = Database.Users.Get(userId.Value);
 
             if (user == null)
                 throw new ValidationException("Пользователь не найден", "");
 
             // удаление всех отчетов, принадлежащих этому пользователю
-            IEnumerable<Report> reportsToDelete = Database.Reports.GetByUserId(userId.Value);
-            foreach (Report report in reportsToDelete)
-            {
-                Database.Reports.Delete(report.Id);
-            }
+            Database.Reports.DeleteByUser(userId.Value);
 
             Database.Users.Delete(userId.Value);
             Database.Save();

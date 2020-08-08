@@ -32,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\":27,\n\t\"email\":\"CHANGEDUSER8@email.com\",\n\t\"firstname\":\"user2\",\n    \"surname\":\"surname1\",\n    \"patronymic\":\"patronymic1\"\n}",
+					"raw": "{\n    \"id\":43,\n\t\"email\":\"CHANGEDUSER@email.com\",\n\t\"firstname\":\"firstname\",\n    \"surname\":\"surname\",\n    \"patronymic\":\"patronymic\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,7 +61,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\":\"user5@user.net\",\n\t\"firstname\":\"firstname\",\n    \"surname\":\"surname\",\n    \"patronymic\":\"patronymic\"\n}",
+					"raw": "{\n    \"email\":\"user@email.net\",\n\t\"firstname\":\"firstname\",\n    \"surname\":\"surname\",\n    \"patronymic\":\"patronymic\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -89,7 +89,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/user/delete/28",
+					"raw": "https://localhost:26038/user/delete/45",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -98,7 +98,7 @@
 					"path": [
 						"user",
 						"delete",
-						"28"
+						"45"
 					]
 				}
 			},
@@ -111,7 +111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"note\":\"note1\",\n    \"hours\":2,\n    \"date\":\"2019-01-06T17:16:40\",\n    \"userid\":27\n}",
+					"raw": "{\n    \"note\":\"note1\",\n    \"hours\":2,\n    \"date\":\"2019-01-06T17:16:40\",\n    \"userid\":45\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -139,7 +139,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/report/get?userid=27&month=1&year=2019",
+					"raw": "https://localhost:26038/report/get?userid=45&month=1&year=2019",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -152,7 +152,7 @@
 					"query": [
 						{
 							"key": "userid",
-							"value": "27"
+							"value": "45"
 						},
 						{
 							"key": "month",
@@ -173,7 +173,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:26038/report/delete/12",
+					"raw": "https://localhost:26038/report/delete/14",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -182,7 +182,7 @@
 					"path": [
 						"report",
 						"delete",
-						"12"
+						"14"
 					]
 				}
 			},
@@ -195,7 +195,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\":11,\n\t\"userid\":24,\n    \"note\":\"changedNote\",\n    \"hours\":1,\n    \"date\":\"2019-01-06T17:16:40\"\n}",
+					"raw": "{\n    \"id\":15,\n\t\"userid\":45,\n    \"note\":\"changedNote\",\n    \"hours\":1,\n    \"date\":\"2019-01-06T17:16:40\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

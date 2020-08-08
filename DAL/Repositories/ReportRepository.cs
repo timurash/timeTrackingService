@@ -33,6 +33,11 @@ namespace DAL.Repositories
                 db.Reports.Remove(report);
         }
 
+        public void DeleteByUser(int userId)
+        {
+            db.Reports.RemoveRange(db.Reports.Where(x => x.UserId == userId));
+        }
+
         public Report GetById(int id)
         {
             return db.Reports.Find(id);
