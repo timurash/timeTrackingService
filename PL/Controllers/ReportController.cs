@@ -23,7 +23,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// добавление отчета. report/add
+        /// Добавление отчета. report/add
         /// </summary>
         [HttpPost("add")]
         public IActionResult AddReport([FromBody] ReportDTO reportDTO)
@@ -52,7 +52,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// обновление отчета. report/update
+        /// Обновление отчета. report/update
         /// </summary>
         [HttpPut("update")]
         public IActionResult UpdateReport([FromBody] ReportDTO reportDTO)
@@ -81,7 +81,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// удаление отчета. Пример: report/delete/5
+        /// Удаление отчета. Пример: report/delete/5
         /// </summary>
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteReport(int? id)
@@ -105,8 +105,8 @@ namespace PL.Controllers
 
 
         /// <summary>
-        /// получение списка отчетов пользователя за указанный месяц
-        /// пример запроса: report/get?userid=24&month=1&year=2019
+        /// Получение списка отчетов пользователя за указанный месяц
+        /// Пример запроса: report/get?userid=24&month=1&year=2019
         /// </summary>
         [HttpGet("get")]
         public IActionResult Get([FromQuery] ReportFilterDTO reportFilterDTO)

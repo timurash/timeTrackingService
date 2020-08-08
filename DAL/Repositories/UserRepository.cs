@@ -15,13 +15,17 @@ namespace DAL.Repositories
             this.db = context;
         }
 
-        // получение полного списка пользователей
+        /// <summary>
+        /// Получение полного списка пользователей
+        /// </summary>
         public IEnumerable<User> GetAll()
         {
             return db.Users;
         }
 
-        // поиска пользователя по Id
+        /// <summary>
+        /// Поиск пользователя по Id
+        /// </summary>
         public User Get(int id)
         {
             return db.Users.Find(id);
@@ -46,7 +50,9 @@ namespace DAL.Repositories
             }
         }
 
-        // поиска пользователя по Email
+        /// <summary>
+        /// Поиск пользователя по Email
+        /// </summary>
         public User Find(string email)
         {
             return db.Users.Where(p => p.Email == email).FirstOrDefault();

@@ -12,11 +12,6 @@ namespace DAL.Repositories
         private UserRepository userRepository;
         private ReportRepository reportRepository;
 
-        public EFUnitOfWork()
-        {
-            db = new UsersContext();
-        }
-
         public EFUnitOfWork(UsersContext context)
         {
             db = context;

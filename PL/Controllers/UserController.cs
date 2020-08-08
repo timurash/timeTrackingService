@@ -24,7 +24,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        //создание пользователя. user/create
+        /// Создание пользователя. user/create
         /// </summary>
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] UserDTO userDTO)
@@ -55,7 +55,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        ///обновление данных о пользователе. user/update 
+        /// Обновление данных о пользователе. user/update 
         /// </summary>
         [HttpPut("update")]
         public IActionResult UpdateUser([FromBody] UserDTO userDTO)
@@ -87,7 +87,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        ///удаление пользователя и связанных с ним отчетов. user/delete
+        /// Удаление пользователя и связанных с ним отчетов. user/delete
         /// </summary>
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteUser(int? id)
@@ -110,7 +110,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        ///получение списка всех пользователей. user/get
+        /// Получение списка всех пользователей. user/get
         /// </summary>
         [HttpGet("get")]
         public ActionResult GetUsers()

@@ -33,6 +33,9 @@ namespace DAL.Repositories
                 db.Reports.Remove(report);
         }
 
+        /// <summary>
+        /// Удаление всех отчетов, относящихся к определенному пользователю
+        /// </summary>
         public void DeleteByUser(int userId)
         {
             db.Reports.RemoveRange(db.Reports.Where(x => x.UserId == userId));
@@ -43,6 +46,9 @@ namespace DAL.Repositories
             return db.Reports.Find(id);
         }
 
+        /// <summary>
+        /// Получение отчетов за указанный месяц от определенного пользователя
+        /// </summary>
         public IEnumerable<Report> GetByUserAndDate(int userId, int month, int year)
         {
             return db.Reports.Where(p => p.UserId == userId && p.Date.Month == month && p.Date.Year == year);

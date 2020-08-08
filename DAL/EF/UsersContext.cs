@@ -14,12 +14,5 @@ namespace DAL.EF
         }
 
         public UsersContext(DbContextOptions<UsersContext> options) : base(options) { }
-
-        /*
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = postgres; Password = 1234");
-        }
-        */
     }
 }
