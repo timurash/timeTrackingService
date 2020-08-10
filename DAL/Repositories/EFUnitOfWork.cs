@@ -6,9 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
+    /// <summary>
+    /// Класс UnitOfWork предоставляет доступ к репозиториям через отдельные свойства и определяет общий контекст для обоих репозиториев.
+    /// </summary>
     public class EFUnitOfWork : IUnitOfWork
     {
-        private UsersContext db;
+        private readonly UsersContext db;
         private UserRepository userRepository;
         private ReportRepository reportRepository;
 

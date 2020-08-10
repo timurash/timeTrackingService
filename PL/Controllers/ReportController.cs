@@ -7,10 +7,14 @@ using PL.Models;
 using System;
 using Serilog;
 using System.Linq;
-using BLL.Infrastructure;
 
 namespace PL.Controllers
 {
+    /// <summary>
+    /// Контроллер, предназначенный для работы с отчетами пользователей.
+    /// Содержит в себе методы создания, удаления, обновления информации об отчетах.
+    /// Так же имеет метод получения списка отчетов определенного пользователя за конкретный месяц.
+    /// </summary>
     [ApiController]
     [Route("report")]
     public class ReportController : Controller
@@ -23,7 +27,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// Добавление отчета. report/add
+        /// Добавление отчета.
         /// </summary>
         [HttpPost("add")]
         public IActionResult AddReport([FromBody] ReportDTO reportDTO)
@@ -32,27 +36,32 @@ namespace PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    reportService.AddReport(reportDTO);
-                    return Ok("Отчет успешно добавлен");
+                    ServiceResultDTO serviceResult = reportService.AddReport(reportDTO);
+
+                    if(serviceResult.IsValid == true)
+                    {
+                        return Ok("Отчет успешно добавлен.");
+                    }
+                    else
+                    {
+                        Log.Error(serviceResult.ErrorMessage);
+                        return BadRequest(serviceResult.ErrorMessage);
+                    }
                 }
                 else
                 {
                     return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 }                    
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
         /// <summary>
-        /// Обновление отчета. report/update
+        /// Обновление отчета.
         /// </summary>
         [HttpPut("update")]
         public IActionResult UpdateReport([FromBody] ReportDTO reportDTO)
@@ -61,51 +70,60 @@ namespace PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    reportService.UpdateReport(reportDTO);
-                    return Ok("Отчет успешно обновлен");
+                    ServiceResultDTO serviceResult = reportService.UpdateReport(reportDTO);
+                    if (serviceResult.IsValid == true)
+                    {
+                        return Ok("Отчет успешно обновлен.");
+                    }
+                    else
+                    {
+                        Log.Error(serviceResult.ErrorMessage);
+                        return BadRequest(serviceResult.ErrorMessage);
+                    }
+                    
                 }
                 else
                 {
                     return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 }
             }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
         /// <summary>
-        /// Удаление отчета. Пример: report/delete/5
+        /// Удаление отчета. Пример: report/delete/5.
         /// </summary>
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteReport(int? id)
         {
             try
             {
-                reportService.DeleteReport(id.Value);
-                return Ok("Отчет успешно удален");
-            }
-            catch (ValidationException ex)
-            {
-                Log.Error(ex.Message);
-                return BadRequest(ex.Message);
+                ServiceResultDTO serviceResult = reportService.DeleteReport(id.Value);
+
+                if (serviceResult.IsValid == true)
+                {
+                    return Ok("Отчет успешно удален.");
+                }
+                else
+                {
+                    Log.Error(serviceResult.ErrorMessage);
+                    return BadRequest(serviceResult.ErrorMessage);
+                }
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
 
         /// <summary>
-        /// Получение списка отчетов пользователя за указанный месяц
+        /// Получение списка отчетов определенного пользователя за указанный месяц.
         /// Пример запроса: report/get?userid=24&month=1&year=2019
         /// </summary>
         [HttpGet("get")]
@@ -115,25 +133,30 @@ namespace PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<ReportDTO> reportDTOs = reportService.Get(reportFilterDTO);
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ReportDTO, ReportViewModel>()).CreateMapper();
-                    var reports = mapper.Map<IEnumerable<ReportDTO>, List<ReportViewModel>>(reportDTOs);
+                    GetReportsByDateDTO getReportsByDateDTO = reportService.Get(reportFilterDTO);
 
-                    return Ok(reports);
+                    if (getReportsByDateDTO.ServiceResultDTO.IsValid == true)
+                    {
+                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ReportDTO, ReportViewModel>()).CreateMapper();
+                        var reports = mapper.Map<IEnumerable<ReportDTO>, List<ReportViewModel>>(getReportsByDateDTO.Reports);
+
+                        return Ok(reports);
+                    }
+                    else
+                    {
+                        Log.Error(getReportsByDateDTO.ServiceResultDTO.ErrorMessage);
+                        return BadRequest(getReportsByDateDTO.ServiceResultDTO.ErrorMessage);
+                    }
                 }
                 else
                 {
                     return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 }
             }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
     }

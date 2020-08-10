@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.DTO;
 using AutoMapper;
 using PL.Models;
 using Serilog;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
 namespace PL.Controllers
 {
+    /// <summary>
+    /// Контроллер, предназначенный для работы с пользователями.
+    /// Содержит в себе методы создания, удаления, обновления информации о пользователе.
+    /// Так же имеет метод получения списка всех пользователей.
+    /// </summary>
     [ApiController]
     [Route("user")]
     public class UserController : Controller
@@ -24,7 +27,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// Создание пользователя. user/create
+        /// Создание пользователя.
         /// </summary>
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] UserDTO userDTO)
@@ -33,29 +36,32 @@ namespace PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    userService.CreateUser(userDTO);
-                    return Ok("Пользователь успешно создан");
+                    ServiceResultDTO serviceResult = userService.CreateUser(userDTO);
+
+                    if (serviceResult.IsValid == true)
+                    {
+                        return Ok("Пользователь успешно создан.");
+                    }
+                    else
+                    {
+                        Log.Error(serviceResult.ErrorMessage);
+                        return BadRequest(serviceResult.ErrorMessage);
+                    }
                 }
                 else
                 {
                     return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 }
-
-            }
-            catch (ValidationException ex)
-            {
-                Log.Error(ex.Message);
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
         /// <summary>
-        /// Обновление данных о пользователе. user/update 
+        /// Обновление данных о пользователе.
         /// </summary>
         [HttpPut("update")]
         public IActionResult UpdateUser([FromBody] UserDTO userDTO)
@@ -64,53 +70,59 @@ namespace PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    userService.UpdateUser(userDTO);
+                    ServiceResultDTO serviceResult = userService.UpdateUser(userDTO);
 
-                    return Ok("Данные о пользователе успешно обновлены");
+                    if (serviceResult.IsValid == true)
+                    {
+                        return Ok("Данные о пользователе успешно обновлены.");
+                    }
+                    else
+                    {
+                        Log.Error(serviceResult.ErrorMessage);
+                        return BadRequest(serviceResult.ErrorMessage);
+                    }
                 }
                 else
                 {
                     return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 }
-               
-            }
-            catch (ValidationException ex)
-            {
-                Log.Error(ex.Message);
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
         /// <summary>
-        /// Удаление пользователя и связанных с ним отчетов. user/delete
+        /// Удаление пользователя и связанных с ним отчетов.
         /// </summary>
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteUser(int? id)
         {
             try
             {
-                userService.DeleteUser(id);
-                return Ok("Пользователь успешно удален");
-            }
-            catch (ValidationException ex)
-            {
-                Log.Error(ex.Message);
-                return BadRequest(ex.Message);
+                ServiceResultDTO serviceResult = userService.DeleteUser(id);
+
+                if (serviceResult.IsValid == true)
+                {
+                    return Ok("Пользователь успешно удален.");
+                }
+                else
+                {
+                    Log.Error(serviceResult.ErrorMessage);
+                    return BadRequest(serviceResult.ErrorMessage);
+                }
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
 
         /// <summary>
-        /// Получение списка всех пользователей. user/get
+        /// Получение списка всех пользователей.
         /// </summary>
         [HttpGet("get")]
         public ActionResult GetUsers()
@@ -127,7 +139,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка");
+                return BadRequest("Произошла неизвестная ошибка.");
             }
         }
     }

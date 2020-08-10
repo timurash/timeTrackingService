@@ -3,21 +3,39 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO
 {
-    // DTO для отчетов
+    /// <summary>
+    /// DTO для отчетов.
+    /// </summary>
     public class ReportDTO
     {
+        /// <summary>
+        /// Id отчета.
+        /// </summary>
         public int? Id { get; set; }
 
-        [Required (ErrorMessage = "Не указан Id пользователя")]
+        /// <summary>
+        /// Id пользователя, создавшего отчет.
+        /// </summary>
+        [Required (ErrorMessage = "Не указан Id пользователя.")]
         public int? UserId { get; set; }
 
-        [Required (ErrorMessage = "Не указано примечание")]
+        /// <summary>
+        /// Примечание к отчету.
+        /// </summary>
+        [Required (ErrorMessage = "Не указано примечание.")]
         public string Note { get; set; }
 
-        [Required (ErrorMessage = "Не указано количество часов")]
+        /// <summary>
+        /// Количество часов.
+        /// </summary>
+        [Required (ErrorMessage = "Не указано количество часов.")]
         public int? Hours { get; set; }
 
-        [Required (ErrorMessage = "Не указана дата")]
+        /// <summary>
+        /// Дата создания отчета.
+        /// </summary>
+        [Required (ErrorMessage = "Не указана дата.")]
+        [DataType(DataType.DateTime)]
         public DateTime? Date { get; set; }
     }
 }

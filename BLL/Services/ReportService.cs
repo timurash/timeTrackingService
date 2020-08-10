@@ -4,10 +4,12 @@ using BLL.DTO;
 using DAL.Entities;
 using System.Collections.Generic;
 using AutoMapper;
-using BLL.Infrastructure;
 
 namespace BLL.Services
 {
+    /// <summary>
+    /// Сервис для работы с отчетами.
+    /// </summary>
     public class ReportService : IReportService
     {
         IUnitOfWork Database { get; set; }
@@ -18,37 +20,38 @@ namespace BLL.Services
         }
 
         /// <summary>
-        /// добавление отчета
+        /// Добавление отчета.
         /// </summary>
-        public void AddReport(ReportDTO reportDTO)
+        public ServiceResultDTO AddReport(ReportDTO reportDTO)
         {
             User user = Database.Users.Get(reportDTO.UserId.Value);
 
             if (user == null)
-                throw new ValidationException("Пользователь не найден", "");
+                return new ServiceResultDTO("Пользователь не найден.");
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ReportDTO, Report>()).CreateMapper();
             Report report = mapper.Map<ReportDTO, Report>(reportDTO);
 
             Database.Reports.Add(report);
             Database.Save();
+
+            return new ServiceResultDTO(true);
         }
 
         /// <summary>
-        /// обновление отчета
+        /// Обновление отчета.
         /// </summary>
-        public void UpdateReport(ReportDTO reportDTO)
+        public ServiceResultDTO UpdateReport(ReportDTO reportDTO)
         {
-
             User user = Database.Users.Get(reportDTO.UserId.Value);
 
             if (user == null)
-                throw new ValidationException("Пользователь не найден", "");
+                return new ServiceResultDTO("Пользователь не найден.");
 
             Report report = Database.Reports.GetById(reportDTO.Id.Value);
 
             if (report == null)
-                throw new ValidationException("Отчет с таким Id не найден", "");
+                return new ServiceResultDTO("Отчет с таким Id не найден.");
 
             report.UserId = reportDTO.UserId.Value;
             report.Note = reportDTO.Note;
@@ -57,47 +60,52 @@ namespace BLL.Services
 
             Database.Reports.Update(report);
             Database.Save();
+
+            return new ServiceResultDTO(true);
         }
 
         /// <summary>
-        /// удаление отчета
+        /// Удаление отчета.
         /// </summary>
-        public void DeleteReport(int? reportId)
+        public ServiceResultDTO DeleteReport(int? reportId)
         {
             if (reportId == null)
-                throw new ValidationException("Id отчета не установлено", "");
+                return new ServiceResultDTO("Id отчета не установлено.");
 
             Report report = Database.Reports.GetById(reportId.Value);
 
             if (report == null)
-                throw new ValidationException("Отчет с таким Id не найден", "");
+                return new ServiceResultDTO("Отчет с таким Id не найден.");
 
             Database.Reports.Delete(reportId.Value);
             Database.Save();
+
+            return new ServiceResultDTO(true);
+         ;
         }
         /// <summary>
-        /// метод получения списка отчетов пользователя за указанный месяц
+        /// Метод получения списка отчетов пользователя за указанный месяц.
         /// </summary>
-        public IEnumerable<ReportDTO> Get(ReportFilterDTO reportFilterDTO)
+        public GetReportsByDateDTO Get(ReportFilterDTO reportFilterDTO)
         {
             if (reportFilterDTO.UserId == null)
-                throw new ValidationException("Не указан Id пользователя", "");
+                return new GetReportsByDateDTO("Не указан Id пользователя.");
 
             if (reportFilterDTO.Month == null)
-                throw new ValidationException("Не указан месяц, за который необходимо предоставить отчеты", "");
+                return new GetReportsByDateDTO("Не указан месяц, за который необходимо предоставить отчеты.");
 
             if (reportFilterDTO.Year == null)
-                throw new ValidationException("Не указан год, за который необходимо предоставить отчеты", "");
+                return new GetReportsByDateDTO("Не указан год, за который необходимо предоставить отчеты.");
 
             User user = Database.Users.Get(reportFilterDTO.UserId.Value);
 
             if (user == null)
-                throw new ValidationException("Пользователь не найден", "");
+                return new GetReportsByDateDTO("Пользователь не найден.");
 
             var reports = Database.Reports.GetByUserAndDate(reportFilterDTO.UserId.Value, reportFilterDTO.Month.Value, reportFilterDTO.Year.Value);
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Report, ReportDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Report>, List<ReportDTO>>(reports);
+            return new GetReportsByDateDTO(mapper.Map<IEnumerable<Report>, List<ReportDTO>>(reports));
         }
 
         public void Dispose()

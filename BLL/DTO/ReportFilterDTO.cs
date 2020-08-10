@@ -2,16 +2,27 @@
 
 namespace BLL.DTO
 {
-    // DTO для метода получения отчетов по определнному пользователю за конкретный месяц
+    /// <summary>
+    /// DTO для метода получения отчетов по определнному пользователю за конкретный месяц.
+    /// </summary>
     public class ReportFilterDTO
     {
-        [Required (ErrorMessage = "Id пользователя является обязательным полем")]
+        /// <summary>
+        /// Id пользователя, отчеты которого необходимо предоставить.
+        /// </summary>
+        [Required (ErrorMessage = "Id пользователя является обязательным полем.")]
         public int? UserId { get; set; }
 
-        [Required(ErrorMessage = "Месяц является обязательным поле")]
+        /// <summary>
+        /// Месяц, за который необходимо предоставить отчеты.
+        /// </summary>
+        [Required(ErrorMessage = "Месяц является обязательным поле.")]
         public int? Month { get; set; }
 
-        [Required(ErrorMessage = "Год является обязательным полем")]
+        /// <summary>
+        /// Год, за который необходимо предоставить отчеты.
+        /// </summary>
+        [Required(ErrorMessage = "Год является обязательным полем.")]
         public int? Year { get; set; }
     }
 }

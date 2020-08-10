@@ -8,8 +8,6 @@ using DAL.Repositories;
 using Microsoft.Extensions.Configuration;
 using DAL.EF;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL

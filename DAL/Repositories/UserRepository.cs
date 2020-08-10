@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace DAL.Repositories
 {
+    /// <summary>
+    /// Репозиторий для работы с пользователями.
+    /// </summary>
     public class UserRepository : IUserRepository<User>
     {
         private UsersContext db;
@@ -16,7 +19,7 @@ namespace DAL.Repositories
         }
 
         /// <summary>
-        /// Получение полного списка пользователей
+        /// Получение полного списка пользователей.
         /// </summary>
         public IEnumerable<User> GetAll()
         {
@@ -24,23 +27,34 @@ namespace DAL.Repositories
         }
 
         /// <summary>
-        /// Поиск пользователя по Id
+        /// Поиск пользователя по Id.
         /// </summary>
         public User Get(int id)
         {
             return db.Users.Find(id);
         }
 
+        /// <summary>
+        /// Создание нового пользователя.
+        /// </summary>
+        /// <param name="user"></param>
         public void Create(User user)
         {
             db.Users.Add(user);
         }
 
+        /// <summary>
+        /// Обновление данных о существующем пользователе.
+        /// </summary>
         public void Update(User user)
         {
             db.Users.Update(user);
         }
 
+        /// <summary>
+        /// Удаление пользователя по Id.
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -51,7 +65,7 @@ namespace DAL.Repositories
         }
 
         /// <summary>
-        /// Поиск пользователя по Email
+        /// Поиск пользователя по Email.
         /// </summary>
         public User Find(string email)
         {

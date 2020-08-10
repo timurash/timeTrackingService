@@ -5,10 +5,10 @@ namespace BLL.Interfaces
 {
     public interface IReportService
     {
-        void AddReport(ReportDTO reportDTO);
-        void UpdateReport(ReportDTO reportDTO);
-        void DeleteReport(int? reportId);
-        IEnumerable<ReportDTO> Get(ReportFilterDTO reportFilterDTO);
+        ServiceResultDTO AddReport(ReportDTO reportDTO);
+        ServiceResultDTO UpdateReport(ReportDTO reportDTO);
+        ServiceResultDTO DeleteReport(int? reportId);
+        GetReportsByDateDTO Get(ReportFilterDTO reportFilterDTO);
         void Dispose();
     }
 }

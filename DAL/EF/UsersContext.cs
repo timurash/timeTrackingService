@@ -3,6 +3,9 @@ using DAL.Entities;
 
 namespace DAL.EF
 {
+    /// <summary>
+    /// Контекст данных для работы с БД.
+    /// </summary>
     public class UsersContext : DbContext
     {
         public DbSet<User> Users { get; set; }

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 
-
 namespace PL
 {
     public class Program
@@ -20,6 +19,7 @@ namespace PL
 
         public static void Main(string[] args)
         {
+            // Инициализация логгера.
             Log.Logger = new LoggerConfiguration()
                                 .WriteTo.Console()
                                 .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)

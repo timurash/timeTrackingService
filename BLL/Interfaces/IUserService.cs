@@ -5,9 +5,9 @@ namespace BLL.Interfaces
 {
     public interface IUserService
     {
-        void CreateUser(UserDTO userDTO);
-        void UpdateUser(UserDTO userDTO);
-        void DeleteUser(int? userID);
+        ServiceResultDTO CreateUser(UserDTO userDTO);
+        ServiceResultDTO UpdateUser(UserDTO userDTO);
+        ServiceResultDTO DeleteUser(int? userID);
         IEnumerable<UserDTO> GetUsers();
         void Dispose();
     }
