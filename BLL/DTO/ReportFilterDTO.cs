@@ -24,5 +24,14 @@ namespace BLL.DTO
         /// </summary>
         [Required(ErrorMessage = "Год является обязательным полем.")]
         public int? Year { get; set; }
+
+        /// <summary>
+        /// Метод для получения строки с данными, которые были переданы в DTO.
+        /// Используется при записи логов в случае возникновения ошибок.
+        /// </summary>
+        public string GetValueString()
+        {
+            return ($" Данные DTO: UserId = {UserId}; Month = {Month}; Year = {Year}.").ToString();
+        }
     }
 }

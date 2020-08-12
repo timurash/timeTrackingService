@@ -19,7 +19,7 @@ namespace PL.Controllers
     [Route("report")]
     public class ReportController : Controller
     {
-        IReportService reportService;
+        readonly IReportService reportService;
 
         public ReportController(IReportService service)
         {
@@ -55,7 +55,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + reportDTO.GetValueString());
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }
@@ -80,7 +80,6 @@ namespace PL.Controllers
                         Log.Error(serviceResult.ErrorMessage);
                         return BadRequest(serviceResult.ErrorMessage);
                     }
-                    
                 }
                 else
                 {
@@ -89,7 +88,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + reportDTO.GetValueString());
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }
@@ -110,17 +109,16 @@ namespace PL.Controllers
                 }
                 else
                 {
-                    Log.Error(serviceResult.ErrorMessage);
+                    Log.Error(serviceResult.ErrorMessage + $" Id = {id}");
                     return BadRequest(serviceResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + $" Id = {id}");
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }
-
 
         /// <summary>
         /// Получение списка отчетов определенного пользователя за указанный месяц.
@@ -144,7 +142,7 @@ namespace PL.Controllers
                     }
                     else
                     {
-                        Log.Error(getReportsByDateDTO.ServiceResultDTO.ErrorMessage);
+                        Log.Error(getReportsByDateDTO.ServiceResultDTO.ErrorMessage + reportFilterDTO.GetValueString());
                         return BadRequest(getReportsByDateDTO.ServiceResultDTO.ErrorMessage);
                     }
                 }
@@ -155,7 +153,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + reportFilterDTO.GetValueString());
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }

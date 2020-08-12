@@ -37,5 +37,14 @@ namespace BLL.DTO
         [Required (ErrorMessage = "Не указана дата.")]
         [DataType(DataType.DateTime)]
         public DateTime? Date { get; set; }
+
+        /// <summary>
+        /// Метод для получения строки с данными, которые были переданы в DTO.
+        /// Используется при записи логов в случае возникновения ошибок.
+        /// </summary>
+        public string GetValueString()
+        {
+            return ($" Данные DTO: Id = {Id}; UserId = {UserId}; Note = {Note}; Hours = {Hours}; Date = {Date}.").ToString();
+        }
     }
 }

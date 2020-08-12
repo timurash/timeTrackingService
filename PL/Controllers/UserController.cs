@@ -44,7 +44,7 @@ namespace PL.Controllers
                     }
                     else
                     {
-                        Log.Error(serviceResult.ErrorMessage);
+                        Log.Error(serviceResult.ErrorMessage + userDTO.GetValueString());
                         return BadRequest(serviceResult.ErrorMessage);
                     }
                 }
@@ -55,7 +55,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + userDTO.GetValueString());
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }
@@ -78,7 +78,7 @@ namespace PL.Controllers
                     }
                     else
                     {
-                        Log.Error(serviceResult.ErrorMessage);
+                        Log.Error(serviceResult.ErrorMessage + userDTO.GetValueString());
                         return BadRequest(serviceResult.ErrorMessage);
                     }
                 }
@@ -89,7 +89,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + userDTO.GetValueString());
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }
@@ -110,13 +110,13 @@ namespace PL.Controllers
                 }
                 else
                 {
-                    Log.Error(serviceResult.ErrorMessage);
+                    Log.Error(serviceResult.ErrorMessage + $"Id = {id}");
                     return BadRequest(serviceResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + $"Id = {id}");
                 return BadRequest("Произошла неизвестная ошибка.");
             }
         }

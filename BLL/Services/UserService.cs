@@ -27,7 +27,7 @@ namespace BLL.Services
             User user = Database.Users.Find(userDTO.Email);
 
             if (user != null)
-                return new ServiceResultDTO("Пользователь с таким E-mail уже существует");
+                return new ServiceResultDTO("Пользователь с таким E-mail уже существует.");
 
             user = new User
             {
@@ -51,12 +51,12 @@ namespace BLL.Services
             User user = Database.Users.Get(userDTO.Id);
 
             if (user == null)
-                return new ServiceResultDTO("Пользователь не найден");
+                return new ServiceResultDTO("Пользователь не найден.");
 
             User user2 = Database.Users.Find(userDTO.Email);
 
             if (user2 != null && userDTO.Id != user2.Id)
-                return new ServiceResultDTO("Другой пользователь с таким E-mail уже существует");
+                return new ServiceResultDTO("Другой пользователь с таким E-mail уже существует.");
 
             user.Email = userDTO.Email;
             user.Firstname = userDTO.Firstname;
@@ -77,7 +77,7 @@ namespace BLL.Services
             User user = Database.Users.Get(userId.Value);
 
             if (user == null)
-                return new ServiceResultDTO("Пользователь не найден");
+                return new ServiceResultDTO("Пользователь не найден.");
 
             // удаление всех отчетов, принадлежащих этому пользователю
             Database.Reports.DeleteByUser(userId.Value);

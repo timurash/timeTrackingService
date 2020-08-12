@@ -35,5 +35,14 @@ namespace BLL.DTO
         /// Отчество пользователя.
         /// </summary>
         public string Patronymic { get; set; }
+
+        /// <summary>
+        /// Метод для получения строки с данными, которые были переданы в DTO.
+        /// Используется при записи логов в случае возникновения ошибок.
+        /// </summary>
+        public string GetValueString()
+        {
+            return ($" Данные DTO: Id = {Id}; Email = {Email}; Firtsname = {Firstname}; Surname = {Surname}; Patronymic = {Patronymic}.").ToString();
+        }
     }
 }
