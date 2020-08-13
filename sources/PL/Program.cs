@@ -7,6 +7,7 @@ using System.IO;
 
 namespace PL
 {
+    #pragma warning disable CS1591
     public class Program
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
