@@ -21,9 +21,12 @@ namespace PL.Controllers
     {
         readonly IReportService reportService;
 
-        public ReportController(IReportService service)
+        private readonly IMapper _mapper;
+
+        public ReportController(IReportService service, IMapper mapper)
         {
             reportService = service;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -135,8 +138,7 @@ namespace PL.Controllers
 
                     if (getReportsByDateDTO.ServiceResultDTO.IsValid == true)
                     {
-                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ReportDTO, ReportViewModel>()).CreateMapper();
-                        var reports = mapper.Map<IEnumerable<ReportDTO>, List<ReportViewModel>>(getReportsByDateDTO.Reports);
+                        IEnumerable<ReportViewModel> reports = _mapper.Map<IEnumerable<ReportViewModel>>(getReportsByDateDTO.Reports);
 
                         return Ok(reports);
                     }

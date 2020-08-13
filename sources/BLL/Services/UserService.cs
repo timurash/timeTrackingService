@@ -14,9 +14,12 @@ namespace BLL.Services
     {
         IUnitOfWork Database { get; set; }
 
-        public UserService(IUnitOfWork uow)
+        private readonly IMapper _mapper;
+
+        public UserService(IUnitOfWork uow, IMapper mapper)
         {
             Database = uow;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -90,8 +93,8 @@ namespace BLL.Services
 
         public IEnumerable<UserDTO> GetUsers()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<User>, List<UserDTO>>(Database.Users.GetAll());
+            IEnumerable<UserDTO> users = _mapper.Map<IEnumerable<UserDTO>>(Database.Users.GetAll());
+            return users;
         }
 
         public void Dispose()
