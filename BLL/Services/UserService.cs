@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using System.Collections.Generic;
 using AutoMapper;
+using BLL.AutomapperProfiles;
 
 namespace BLL.Services
 {
@@ -90,7 +91,7 @@ namespace BLL.Services
 
         public IEnumerable<UserDTO> GetUsers()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.AddProfile<UserProfile>()).CreateMapper();
             return mapper.Map<IEnumerable<User>, List<UserDTO>>(Database.Users.GetAll());
         }
 

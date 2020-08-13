@@ -4,6 +4,7 @@ using BLL.DTO;
 using DAL.Entities;
 using System.Collections.Generic;
 using AutoMapper;
+using BLL.AutomapperProfiles;
 
 namespace BLL.Services
 {
@@ -104,7 +105,7 @@ namespace BLL.Services
 
             var reports = Database.Reports.GetByUserAndDate(reportFilterDTO.UserId.Value, reportFilterDTO.Month.Value, reportFilterDTO.Year.Value);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Report, ReportDTO>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.AddProfile<ReportProfile>()).CreateMapper();
             return new GetReportsByDateDTO(mapper.Map<IEnumerable<Report>, List<ReportDTO>>(reports));
         }
 
