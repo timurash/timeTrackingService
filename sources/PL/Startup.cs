@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using BLL.AutomapperProfiles;
+using PL.AutoMapperProfiles;
 
 namespace PL
 {
@@ -36,6 +39,19 @@ namespace PL
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserDTOProfile());
+                mc.AddProfile(new ReportDTOProfile());
+                mc.AddProfile(new UserViewProfile());
+                mc.AddProfile(new ReportViewProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddAutoMapper(typeof(UserViewProfile), typeof(ReportViewProfile));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

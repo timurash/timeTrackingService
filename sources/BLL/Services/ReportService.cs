@@ -14,9 +14,12 @@ namespace BLL.Services
     {
         IUnitOfWork Database { get; set; }
 
-        public ReportService(IUnitOfWork uow)
+        private readonly IMapper _mapper;
+
+        public ReportService(IUnitOfWork uow, IMapper mapper)
         {
             Database = uow;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -104,8 +107,8 @@ namespace BLL.Services
 
             var reports = Database.Reports.GetByUserAndDate(reportFilterDTO.UserId.Value, reportFilterDTO.Month.Value, reportFilterDTO.Year.Value);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Report, ReportDTO>()).CreateMapper();
-            return new GetReportsByDateDTO(mapper.Map<IEnumerable<Report>, List<ReportDTO>>(reports));
+            GetReportsByDateDTO result = new GetReportsByDateDTO(_mapper.Map<IEnumerable<ReportDTO>>(reports));
+            return result;
         }
 
         public void Dispose()

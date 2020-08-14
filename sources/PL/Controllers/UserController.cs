@@ -21,9 +21,12 @@ namespace PL.Controllers
     {
         IUserService userService;
 
-        public UserController(IUserService service)
+        private readonly IMapper _mapper;
+
+        public UserController(IUserService service, IMapper mapper)
         {
             userService = service;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -131,8 +134,7 @@ namespace PL.Controllers
             {
                 IEnumerable<UserDTO> userDTOs = userService.GetUsers();
 
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
-                var users = mapper.Map<IEnumerable<UserDTO>, List<UserViewModel>>(userDTOs);
+                IEnumerable<UserViewModel> users = _mapper.Map<IEnumerable<UserViewModel>>(userDTOs);
 
                 return Ok(users);
             }
