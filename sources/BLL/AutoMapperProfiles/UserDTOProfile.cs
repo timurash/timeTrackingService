@@ -2,7 +2,7 @@
 using BLL.DTO;
 using DAL.Entities;
 
-namespace BLL.AutomapperProfiles
+namespace BLL.AutoMapperProfiles
 {
     public class UserDTOProfile : Profile
     {

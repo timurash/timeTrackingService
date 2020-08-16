@@ -10,7 +10,7 @@ using DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using BLL.AutomapperProfiles;
+using BLL.AutoMapperProfiles;
 using PL.AutoMapperProfiles;
 
 namespace PL
