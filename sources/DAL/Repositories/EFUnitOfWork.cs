@@ -2,7 +2,6 @@
 using DAL.Interfaces;
 using DAL.EF;
 using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {

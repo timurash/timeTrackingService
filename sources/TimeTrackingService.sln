@@ -7,12 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL", "PL\PL.csproj", "{6059AABF-1F26-4081-A785-0714C04B1936}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingService.Tests", "TimeTrackingServiceTests\TimeTrackingService.Tests.csproj", "{FC384AF8-1592-44F5-A9FA-4C9943F553BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC384AF8-1592-44F5-A9FA-4C9943F553BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC384AF8-1592-44F5-A9FA-4C9943F553BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC384AF8-1592-44F5-A9FA-4C9943F553BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC384AF8-1592-44F5-A9FA-4C9943F553BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82515383-EB11-4E85-A5E1-8697AEB02BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82515383-EB11-4E85-A5E1-8697AEB02BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82515383-EB11-4E85-A5E1-8697AEB02BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU

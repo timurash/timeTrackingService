@@ -91,15 +91,6 @@ namespace BLL.Services
         /// </summary>
         public GetReportsByDateDTO Get(ReportFilterDTO reportFilterDTO)
         {
-            if (reportFilterDTO.UserId == null)
-                return new GetReportsByDateDTO("Не указан Id пользователя.");
-
-            if (reportFilterDTO.Month == null)
-                return new GetReportsByDateDTO("Не указан месяц, за который необходимо предоставить отчеты.");
-
-            if (reportFilterDTO.Year == null)
-                return new GetReportsByDateDTO("Не указан год, за который необходимо предоставить отчеты.");
-
             User user = Database.Users.Get(reportFilterDTO.UserId.Value);
 
             if (user == null)
