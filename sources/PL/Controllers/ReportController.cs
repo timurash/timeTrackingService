@@ -98,7 +98,7 @@ namespace PL.Controllers
         }
 
         /// <summary>
-        /// Удаление отчета. Пример: report/delete/5.
+        /// Удаление отчета.
         /// </summary>
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteReport(int? id)
@@ -126,7 +126,6 @@ namespace PL.Controllers
 
         /// <summary>
         /// Получение списка отчетов определенного пользователя за указанный месяц.
-        /// Пример запроса: report/get?userid=24&month=1&year=2019
         /// </summary>
         [HttpGet("get")]
         [ProducesResponseType(typeof(List<ReportViewModel>), StatusCodes.Status200OK)]
