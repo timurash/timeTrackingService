@@ -34,8 +34,6 @@ namespace PL.Controllers
         /// Добавление отчета.
         /// </summary>
         [HttpPost("add")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult AddReport([FromBody] ReportDTO reportDTO)
         {
             try
@@ -70,8 +68,6 @@ namespace PL.Controllers
         /// Обновление отчета.
         /// </summary>
         [HttpPut("update")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateReport([FromBody] ReportDTO reportDTO)
         {
             try
@@ -105,8 +101,6 @@ namespace PL.Controllers
         /// Удаление отчета. Пример: report/delete/5.
         /// </summary>
         [HttpDelete("delete/{id}")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteReport(int? id)
         {
             try
@@ -135,8 +129,7 @@ namespace PL.Controllers
         /// Пример запроса: report/get?userid=24&month=1&year=2019
         /// </summary>
         [HttpGet("get")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<ReportViewModel>), StatusCodes.Status200OK)]
         public IActionResult Get([FromQuery] ReportFilterDTO reportFilterDTO)
         {
             try
