@@ -34,8 +34,6 @@ namespace PL.Controllers
         /// Создание пользователя.
         /// </summary>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult CreateUser([FromBody] UserDTO userDTO)
         {
             try
@@ -70,8 +68,6 @@ namespace PL.Controllers
         /// Обновление данных о пользователе.
         /// </summary>
         [HttpPut("update")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateUser([FromBody] UserDTO userDTO)
         {
             try
@@ -106,8 +102,6 @@ namespace PL.Controllers
         /// Удаление пользователя и связанных с ним отчетов.
         /// </summary>
         [HttpDelete("delete/{id}")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUser(int? id)
         {
             try
@@ -135,8 +129,7 @@ namespace PL.Controllers
         /// Получение списка всех пользователей.
         /// </summary>
         [HttpGet("get")]
-        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(List<UserViewModel>), StatusCodes.Status200OK)]
         public ActionResult GetUsers()
         {
             try
