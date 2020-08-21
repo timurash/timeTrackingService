@@ -34,8 +34,8 @@ namespace PL.Controllers
         /// Добавление отчета.
         /// </summary>
         [HttpPost("add")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult AddReport([FromBody] ReportDTO reportDTO)
         {
             try
@@ -70,8 +70,8 @@ namespace PL.Controllers
         /// Обновление отчета.
         /// </summary>
         [HttpPut("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateReport([FromBody] ReportDTO reportDTO)
         {
             try
@@ -105,8 +105,8 @@ namespace PL.Controllers
         /// Удаление отчета. Пример: report/delete/5.
         /// </summary>
         [HttpDelete("delete/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteReport(int? id)
         {
             try
@@ -135,8 +135,8 @@ namespace PL.Controllers
         /// Пример запроса: report/get?userid=24&month=1&year=2019
         /// </summary>
         [HttpGet("get")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(OkObjectResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         public IActionResult Get([FromQuery] ReportFilterDTO reportFilterDTO)
         {
             try
