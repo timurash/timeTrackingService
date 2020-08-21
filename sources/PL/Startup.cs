@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using BLL.Interfaces;
 using BLL.Services;
@@ -12,6 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using BLL.AutoMapperProfiles;
 using PL.AutoMapperProfiles;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
+using System;
+using System.Linq;
 
 namespace PL
 {
@@ -40,6 +44,29 @@ namespace PL
                 options.SuppressModelStateInvalidFilter = true;
             });
 
+            // Инициализация Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v0.1", new OpenApiInfo
+                {
+                    Version = "v0.1",
+                    Title = "Сервис - Учет времени",
+                    Description = "REST API сервиса для учета отработанного времени"
+                });
+
+                var currentAssembly = Assembly.GetExecutingAssembly();
+                var xmlDocs = currentAssembly.GetReferencedAssemblies()
+                .Union(new AssemblyName[] { currentAssembly.GetName() })
+                .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
+                .Where(f => File.Exists(f)).ToArray();
+
+                Array.ForEach(xmlDocs, (d) =>
+                {
+                    c.IncludeXmlComments(d);
+                });
+            });
+
+            // Инициализация AutoMapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserDTOProfile());
@@ -54,8 +81,15 @@ namespace PL
             services.AddAutoMapper(typeof(UserViewProfile), typeof(ReportViewProfile));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v0.1/swagger.json", "REST API V0.1");
+            });
+
             app.UseStaticFiles();
 
             app.UseDeveloperExceptionPage();
