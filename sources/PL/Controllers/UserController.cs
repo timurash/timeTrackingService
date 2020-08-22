@@ -54,7 +54,7 @@ namespace PL.Controllers
                 }
                 else
                 {
-                    return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                    return BadRequest(ModelState);
                 }
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace PL.Controllers
                 }
                 else
                 {
-                    return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                    return BadRequest(ModelState);
                 }
             }
             catch (Exception ex)

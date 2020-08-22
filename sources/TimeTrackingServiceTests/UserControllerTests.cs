@@ -82,7 +82,7 @@ namespace TimeTrackingService.Tests
         }
 
         [Fact]
-        public void CreateUserWithModelErrorReturnsBadRequest()
+        public void CreateUserWithModelErrorReturnsValidationErrorMessage()
         {
             var userDTO = new UserDTO();
             // Arrange
@@ -91,10 +91,12 @@ namespace TimeTrackingService.Tests
             userController.ModelState.AddModelError("Name", "Required");
 
             // Act
-            var result = userController.CreateUser(userDTO);
+            BadRequestObjectResult result = (BadRequestObjectResult)userController.CreateUser(userDTO);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
+            SerializableError errorMessages = (SerializableError)result.Value;
+            Assert.Equal("Required", ((string[])errorMessages["Name"])[0]);
         }
 
         [Fact]
@@ -124,7 +126,7 @@ namespace TimeTrackingService.Tests
         }
 
         [Fact]
-        public void UpdateUserWithModelErrorReturnsBadRequest()
+        public void UpdateUserWithModelErrorReturnsValidationErrorMessage()
         {
             var userDTO = new UserDTO();
             // Arrange
@@ -133,10 +135,12 @@ namespace TimeTrackingService.Tests
             userController.ModelState.AddModelError("Name", "Required");
 
             // Act
-            var result = userController.UpdateUser(userDTO);
+            BadRequestObjectResult result = (BadRequestObjectResult)userController.UpdateUser(userDTO);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
+            SerializableError errorMessages = (SerializableError)result.Value;
+            Assert.Equal("Required", ((string[])errorMessages["Name"])[0]);
         }
 
         [Fact]

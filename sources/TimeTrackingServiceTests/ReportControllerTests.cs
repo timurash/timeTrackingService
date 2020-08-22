@@ -88,7 +88,7 @@ namespace TimeTrackingService.Tests
         }
 
         [Fact]
-        public void CreateReportWithModelErrorReturnsBadRequest()
+        public void CreateReportWithModelErrorReturnsValidationErrorMessage()
         {
             var reportDTO = new ReportDTO();
             // Arrange
@@ -97,10 +97,12 @@ namespace TimeTrackingService.Tests
             reportController.ModelState.AddModelError("Note", "Required");
 
             // Act
-            var result = reportController.AddReport(reportDTO);
+            BadRequestObjectResult result = (BadRequestObjectResult)reportController.AddReport(reportDTO);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
+            SerializableError errorMessages = (SerializableError)result.Value;
+            Assert.Equal("Required", ((string[])errorMessages["Note"])[0]);
         }
 
         [Fact]
@@ -130,7 +132,7 @@ namespace TimeTrackingService.Tests
         }
 
         [Fact]
-        public void UpdateReportWithModelErrorReturnsBadRequest()
+        public void UpdateReportWithModelErrorReturnsValidationErrorMessage()
         {
             var reportDTO = new ReportDTO();
             // Arrange
@@ -139,10 +141,11 @@ namespace TimeTrackingService.Tests
             reportController.ModelState.AddModelError("Name", "Required");
 
             // Act
-            var result = reportController.UpdateReport(reportDTO);
+            BadRequestObjectResult result = (BadRequestObjectResult)reportController.UpdateReport(reportDTO);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            SerializableError errorMessages = (SerializableError)result.Value;
+            Assert.Equal("Required", ((string[])errorMessages["Name"])[0]);
         }
 
         [Fact]
