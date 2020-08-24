@@ -1,5 +1,6 @@
 .vs/
 sources/PL/Logs
+sources/PL/Properties/PublishProfiles
 *.DS_Store
 
 

@@ -10,12 +10,10 @@ namespace DAL.EF
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Report> Reports { get; set; }
-        
-        public UsersContext()
+
+        public UsersContext(DbContextOptions<UsersContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
-
-        public UsersContext(DbContextOptions<UsersContext> options) : base(options) { }
     }
 }
