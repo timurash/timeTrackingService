@@ -213,8 +213,11 @@ WantedBy=multi-user.target
 ```
 13. Запустим новый сервис:
 ```
-sudo systemctl enable movie.service
-sudo systemctl start movie.service
+sudo systemctl enable timeTrackingService.service
+sudo systemctl start timeTrackingService.service
 ```
-
-Если все шаги сделаны правильно, то сервис должен заработать по адресу вашего домена.
+14. Проверим сосотяние сервиса командой:
+```
+sudo systemctl status timeTrackingService.service
+```
+Если все шаги сделаны правильно, сервис должен заработать по адресу вашего домена.
