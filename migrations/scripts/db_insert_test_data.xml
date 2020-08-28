@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+  <databaseChangeLog  
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">  
+    <changeSet  id="3"  author="AkhmetovT">  
+        <insert tableName="Users">
+            <column name="Email" value="a.ivanov@email.ru"/>
+            <column name="Firstname" value="Алексей"/>
+            <column name="Surname" value="Иванов"/>
+            <column name="Patronymic" value="Михайлович"/>
+        </insert> 
+        <insert tableName="Users">
+            <column name="Email" value="i.mikhailov@email.ru"/>
+            <column name="Firstname" value="Иван"/>
+            <column name="Surname" value="Михайлов"/>
+            <column name="Patronymic" value="Алексеевич"/>
+        </insert> 
+        <insert tableName="Users">
+            <column name="Email" value="g.makarov@email.ru"/>
+            <column name="Firstname" value="Георгий"/>
+            <column name="Surname" value="Макаров"/>
+            <column name="Patronymic" value="Сергеевич"/>
+        </insert>
+        <insert tableName="Reports">
+            <column name="Note" value="Дело №1"/>
+            <column name="Hours" value="6"/>
+            <column name="Date" value="2019-07-01 12:00:00"/>
+            <column name="UserId" value="1"/>
+        </insert>  
+        <insert tableName="Reports">
+            <column name="Note" value="Дело №2"/>
+            <column name="Hours" value="5"/>
+            <column name="Date" value="2019-07-01 12:00:00"/>
+            <column name="UserId" value="1"/>
+        </insert> 
+        <insert tableName="Reports">
+            <column name="Note" value="Дело №3"/>
+            <column name="Hours" value="4"/>
+            <column name="Date" value="2019-08-01 12:00:00"/>
+            <column name="UserId" value="1"/>
+        </insert> 
+         <insert tableName="Reports">
+            <column name="Note" value="Дело №4"/>
+            <column name="Hours" value="3"/>
+            <column name="Date" value="2019-08-01 12:00:00"/>
+            <column name="UserId" value="2"/>
+        </insert> 
+         <insert tableName="Reports">
+            <column name="Note" value="Дело №5"/>
+            <column name="Hours" value="2"/>
+            <column name="Date" value="2019-08-01 12:00:00"/>
+            <column name="UserId" value="2"/>
+        </insert> 
+         <insert tableName="Reports">
+            <column name="Note" value="Дело №6"/>
+            <column name="Hours" value="1"/>
+            <column name="Date" value="2019-08-01 12:00:00"/>
+            <column name="UserId" value="3"/>
+        </insert> 
+    </changeSet>  
+    </databaseChangeLog>
