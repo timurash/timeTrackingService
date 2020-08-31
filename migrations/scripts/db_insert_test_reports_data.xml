@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <databaseChangeLog  
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">  
+    <changeSet id="4" author="AkhmetovT" dbms="postgresql" >
+    <comment>Adding Data...</comment>
+     <loadUpdateData catalogName="scripts"
+          encoding="UTF-8"
+          file="test_reports.csv"
+          primaryKey="Id"
+          quotchar="A String"
+          schemaName="public"
+          separator=","
+          tableName="Reports">
+        <column name="UserId" type="numeric" />
+        <column name="Note" type="string"/>
+        <column name="Hours" type="numeric" />
+        <column name="Date" type="date" />
+     </loadUpdateData>
+     </changeSet> 
+</databaseChangeLog>
