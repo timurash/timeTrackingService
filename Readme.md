@@ -216,8 +216,14 @@ WantedBy=multi-user.target
 sudo systemctl enable timeTrackingService.service
 sudo systemctl start timeTrackingService.service
 ```
-14. Проверим сосотяние сервиса командой:
+14. Проверим состояние сервиса командой:
 ```
 sudo systemctl status timeTrackingService.service
 ```
-Если все шаги сделаны правильно, сервис должен заработать по адресу вашего домена.
+Если все шаги сделаны правильно, команда вернет результат наподобие следующего:
+```
+timeTrackingService.service - TimeTrackingService
+Loaded: loaded (/etc/systemd/system/timeTrackingService.service; enabled; vendor preset: enabled)
+Active: active (running) since Tue 2020-08-25 14:00:11 UTC; 5 days ago
+```
+И работу сервиса можно будет проверить, перейдя в браузере по адресу [your.domain/user/get](your.domain/user/get).
