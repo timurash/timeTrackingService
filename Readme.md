@@ -34,4 +34,13 @@ dotnet test
 ## Миграции
 В репозитории имеются скрипты миграции Liquibase для создания таблиц и добавления в них тестовых данных.
 
-Для их использования необходимо отредактировать файл "liquibase.properties", добавив информацию для доступа к своей БД в поля "Username" и "Password". 
+Для их использования необходимо:
+
+ 1.  Скачать JDBC Postgres Driver по ссылке: [https://jdbc.postgresql.org/download.html](https://jdbc.postgresql.org/download.html)
+ 2.  Отредактировать файл "liquibase.properties", указав в поле "classpath" путь до скачанного JDBC драйвера.
+ 3.  В том же файле "liquibase.properties" добавить информацию для доступа к своей БД в поля "Username" и "Password". 
+
+Для выполнения скриптов необходимо из папки scripts ввести в консоли команду:
+```
+liquibase update
+```
