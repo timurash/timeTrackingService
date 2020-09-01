@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+  <databaseChangeLog  
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">  
+    <changeSet  id="1"  author="AkhmetovT">  
+        <createTable  tableName="Users">  
+            <column  name="Id"  type="int"  autoIncrement="true">  
+                <constraints  primaryKey="true"  nullable="false"/>  
+            </column>  
+            <column  name="Email"  type="text"/>  
+            <column  name="Firstname"  type="text"/>  
+            <column  name="Surname"  type="text">  
+                <constraints  nullable="false"/>  
+            </column>  
+            <column  name="Patronymic"  type="text">  
+            </column>
+        </createTable>  
+    </changeSet>  
+    <changeSet  id="2"  author="AkhmetovT">  
+        <createTable  tableName="Reports">  
+            <column  name="Id"  type="int"  autoIncrement="true">  
+                <constraints  primaryKey="true"  nullable="false"/>  
+            </column>  
+            <column  name="Note"  type="text"/>  
+            <column  name="Hours"  type="int"/>  
+            <column  name="Date"  type="timestamp with time zone">  
+                <constraints  nullable="false"/>  
+            </column>
+            <column name="UserId" type="int">
+              <constraints nullable="false"/>
+            </column>
+        </createTable>   
+
+        <addForeignKeyConstraint baseColumnNames="UserId"
+                             baseTableName="Reports"
+                             constraintName="fk_user_id"
+                             referencedColumnNames="Id"
+                             referencedTableName="Users"/>
+    </changeSet>  
+    </databaseChangeLog>
