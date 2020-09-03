@@ -303,10 +303,10 @@ docker-compose build
 ```
 5. Запустим проект:
 ```
-docker-compose --project-name=tts --file=docker-compose.yml up -d
+docker-compose --project-name=tts --file=doscker-compose.yml up -d
 ```
 6. Если все команды выполнены успешно, то после ввода команды:
 ```
 docker ps
 ```
-Вы увидите список, состоящий из двух запущенных контейнеров (pl -- сам REST API сервис и postgres -- база данных PostgreSQL), и вы сможете проверить работу сервиса, перейдя по адресу [https://your.domain/user/get](https://your.domain/user/get).
+Вы увидите список, состоящий из двух запущенных контейнеров (pl -- сам REST API сервис и postgres -- база данных PostgreSQL), и работу сервиса можно будет проверить, перейдя в браузере по адресу [https://your.domain/user/get](https://your.domain/user/get).
