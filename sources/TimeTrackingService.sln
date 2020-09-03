@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL", "PL\PL.csproj", "{6059
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingService.Tests", "TimeTrackingServiceTests\TimeTrackingService.Tests.csproj", "{FC384AF8-1592-44F5-A9FA-4C9943F553BE}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E792FBD5-8862-4D96-92B6-3FED3C38D25E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{6059AABF-1F26-4081-A785-0714C04B1936}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6059AABF-1F26-4081-A785-0714C04B1936}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6059AABF-1F26-4081-A785-0714C04B1936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E792FBD5-8862-4D96-92B6-3FED3C38D25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E792FBD5-8862-4D96-92B6-3FED3C38D25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E792FBD5-8862-4D96-92B6-3FED3C38D25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E792FBD5-8862-4D96-92B6-3FED3C38D25E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
