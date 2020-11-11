@@ -11,5 +11,6 @@ namespace DAL.Interfaces
         IEnumerable<T> GetAll();
         User Get(int id);
         T Find(string email);
+        bool CheckForUniqueEmail(string emaill);
     }
 }

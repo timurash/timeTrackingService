@@ -30,6 +30,8 @@ namespace PL
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddTransient<IUserService, UserService> ();
             services.AddTransient<IReportService, ReportService>();
 
@@ -79,10 +81,18 @@ namespace PL
             services.AddSingleton(mapper);
 
             services.AddAutoMapper(typeof(UserViewProfile), typeof(ReportViewProfile));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin());
+            });
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("AllowAllOrigins");
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

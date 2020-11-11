@@ -75,9 +75,14 @@ namespace DAL.Repositories
         /// <summary>
         /// Получение отчетов, относящихся к определенному пользователю.
         /// </summary>
-        public IEnumerable<Report> GetByUserId(int userId)
+        public IEnumerable<Report> GetByUserId(int? userId)
         {
             return db.Reports.Where(p => p.UserId == userId);
+        }
+
+        public IEnumerable<Report> GetAllReports()
+        {
+            return db.Reports.OrderBy(report => report.Id);
         }
     }
 }

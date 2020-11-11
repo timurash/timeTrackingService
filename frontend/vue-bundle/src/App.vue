@@ -1,0 +1,40 @@
+<template>
+  <div id="app">
+    <router-view/>
+  </div>
+</template>
+
+<script>
+import { showErrorNotify, showInfoNotify, showSuccessNotify } from '@/utils/notify.js';
+
+export default {
+  name: 'App',
+  methods: {
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error
+    },
+    success() {
+      return this.$store.getters.successMessage
+    }
+  },
+  watch: {
+    error(errorMsg) {
+      if (errorMsg != null) {
+        showErrorNotify(errorMsg);
+      }
+    },
+    successMessage(successMessage) {
+       if (successMessage != null) {
+         showSuccessNotify(successMessage);
+       }
+    },
+    infoMessage(infoMessage) {
+      if (infoMessage != null) {
+        showInfoNotify(infoMessage);
+      }
+    }
+  }
+};
+</script>
