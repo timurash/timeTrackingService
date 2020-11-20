@@ -17,7 +17,7 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка всех пользователей.
     /// </summary>
     [ApiController]
-    [Route("api/user")]
+    [Route("user")]
     public class UserController : Controller
     {
         IUserService userService;

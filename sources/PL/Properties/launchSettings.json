@@ -17,10 +17,10 @@
     },
     "PL": {
       "commandName": "Project",
-      "applicationUrl": "http://localhost:26038",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:26038;http://localhost:30817"
     }
   }
 }

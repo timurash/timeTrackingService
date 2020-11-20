@@ -16,7 +16,7 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка отчетов определенного пользователя за конкретный месяц.
     /// </summary>
     [ApiController]
-    [Route("api/report")]
+    [Route("report")]
     public class ReportController : Controller
     {
         readonly IReportService reportService;
