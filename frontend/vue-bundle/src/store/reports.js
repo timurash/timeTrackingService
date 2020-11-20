@@ -25,7 +25,7 @@ export default {
         async fetchReports ({commit}) {
             commit('clearError');
             commit('setLoading', true);
-            const reports = await axios.get('api/report/get');
+            const reports = await axios.get('http://localhost:26038/api/report/get');
             commit('setReports', reports);
             commit('setLoading', false)
         },
@@ -33,7 +33,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const  response  =  (await axios.post('api/report/add', payload)).data;
+                const  response  =  (await axios.post('http://localhost:26038/api/report/add', payload)).data;
                 showSuccessNotify(response);
             }
             catch (error)  {
@@ -47,7 +47,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.put('api/report/update', payload)).data;
+                const response = (await axios.put('http://localhost:26038/api/report/update', payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 commit('setError', error);
@@ -60,7 +60,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.delete('api/report/delete/' + payload.id, payload)).data;
+                const response = (await axios.delete('http://localhost:26038/api/report/delete/' + payload.id, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 const response = error.response;
