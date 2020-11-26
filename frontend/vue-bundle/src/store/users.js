@@ -34,7 +34,7 @@ export default {
         async fetchUsers ({commit}) {
             commit('clearError');
             commit('setLoading', true);
-            const users = await axios.get('api/user/get');
+            const users = await axios.get(process.env.VUE_APP_ROOT_API + 'api/user/get');
             commit('setUsers', users);
             commit('setLoading', false)
         },
@@ -42,7 +42,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const  response  =  (await axios.post('api/user/create', payload)).data;
+                const  response  =  (await axios.post(process.env.VUE_APP_ROOT_API + 'api/user/create', payload)).data;
                 showSuccessNotify(response);
             }
             catch (error)  {
@@ -56,7 +56,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.put('api/user/update', payload)).data;
+                const response = (await axios.put(process.env.VUE_APP_ROOT_API + 'api/user/update', payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 commit('setError', error);
@@ -69,7 +69,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.delete('api/user/delete/' + payload.id, payload)).data;
+                const response = (await axios.delete(process.env.VUE_APP_ROOT_API + 'api/user/delete/' + payload.id, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 const response = error.response;
@@ -82,7 +82,7 @@ export default {
         },
         async checkForUniqueEmail ({commit}, payload) {
             try {
-                let result = await axios.get('api/user/checkEmail/?email=' + payload.email, payload);
+                let result = await axios.get(process.env.VUE_APP_ROOT_API + 'api/user/checkEmail/?email=' + payload.email, payload);
                 console.log('Запрашиваемый адрес: ' + 'api/user/checkEmail/?email=' + payload.email);
                 console.log('Result с бэка: ' + result.data );
                 commit('SET_UNIQUE_EMAIL', result.data);

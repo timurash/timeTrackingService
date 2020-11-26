@@ -2,7 +2,7 @@ module.exports = {
     devServer: {
         proxy: {
             '^/api': {
-                target: 'https://localhost:26038',
+                target: 'http://localhost:26038',
                 logLevel: "debug",
                 secure: false,
                 pathRewrite: {
@@ -10,8 +10,5 @@ module.exports = {
                 }
             }
         }
-    },
-    publicPath: process.env.NODE_ENV === 'production'
-        ? '/'
-        : '/'
+    }
 };
