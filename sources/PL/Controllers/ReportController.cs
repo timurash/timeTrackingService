@@ -7,6 +7,7 @@ using PL.Models;
 using System;
 using Serilog;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 namespace PL.Controllers
 {
