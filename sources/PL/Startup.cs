@@ -80,23 +80,13 @@ namespace PL
 
             services.AddAutoMapper(typeof(UserViewProfile), typeof(ReportViewProfile));
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
+            services.AddCors();
 
             services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCors("CorsPolicy");
-
-            app.UseHttpsRedirection();
 
             app.UseSwagger();
 
@@ -110,6 +100,13 @@ namespace PL
             app.UseDeveloperExceptionPage();
 
             app.UseRouting();
+
+            app.UseCors(
+                builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+            );
 
             app.UseEndpoints(endpoints =>
             {

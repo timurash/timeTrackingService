@@ -18,7 +18,7 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка всех пользователей.
     /// </summary>
     [ApiController]
-    [EnableCors("CorsPolicy")]
+    [EnableCors]
     [Route("api/user")]
     public class UserController : Controller
     {
