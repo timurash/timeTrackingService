@@ -30,8 +30,6 @@ namespace PL
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-
             services.AddTransient<IUserService, UserService> ();
             services.AddTransient<IReportService, ReportService>();
 
@@ -84,14 +82,19 @@ namespace PL
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOrigins",
-                    builder => builder.AllowAnyOrigin());
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
             });
+
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod());
+            app.UseCors("CorsPolicy");
 
             app.UseSwagger();
 
