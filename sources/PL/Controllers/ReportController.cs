@@ -16,6 +16,7 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка отчетов определенного пользователя за конкретный месяц.
     /// </summary>
     [ApiController]
+    [EnableCors("CorsPolicy")]
     [Route("api/report")]
     public class ReportController : Controller
     {

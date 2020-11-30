@@ -96,6 +96,8 @@ namespace PL
         {
             app.UseCors("CorsPolicy");
 
+            app.UseHttpsRedirection();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

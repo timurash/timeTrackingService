@@ -8,6 +8,7 @@ using Serilog;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 namespace PL.Controllers
 {
@@ -17,6 +18,7 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка всех пользователей.
     /// </summary>
     [ApiController]
+    [EnableCors("CorsPolicy")]
     [Route("api/user")]
     public class UserController : Controller
     {
