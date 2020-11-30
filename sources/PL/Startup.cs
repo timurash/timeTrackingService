@@ -91,7 +91,7 @@ namespace PL
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCors("AllowAllOrigins");
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod());
 
             app.UseSwagger();
 
