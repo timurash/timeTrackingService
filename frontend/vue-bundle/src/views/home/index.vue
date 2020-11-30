@@ -1,5 +1,9 @@
 <template>
-  <h1>Home page</h1>
+  <div class="Box body">
+    <h1>Home page</h1>
+    <h2>TrackYourTime.ru — сервис учёта отработанного времени </h2>
+  </div>
+
 </template>
 
 <script>
