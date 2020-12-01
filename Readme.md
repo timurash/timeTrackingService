@@ -1,4 +1,5 @@
 
+
 # Сервис для учета отработанного времени
 
 Структура репозитория:
@@ -77,8 +78,8 @@ Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = post
 ## Установка сервиса на ОС Linux
 ### Исходные данные
 В данном примере мы будем использовать удаленный сервер на ОС Ubuntu.
-Для развертывания данного сервиса нам понадобится:
-1. Установленный Nginx сервер с отдельным сервер-блоком
+Для развертывания сервиса нам понадобится:
+1. Установленный Nginx
 2. Настроенные A домена, указывающие на публичный IP-адрес сервера
 3. Установленный PostgreSQL
 
@@ -106,108 +107,74 @@ sudo apt update
 ```
 sudo apt install dotnet-sdk-3.1
 ```
-2. Создайте папку c именем вашего домена (в нашем примере она будет называться "your_domain"), которая будет являться корневой для нашего сервиса
+2. Установка Node.js. По очереди введите в терминал перечисленные ниже команды:
 ```
-sudo mkdir -p /var/www/your_domain
+cd ~
+curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+sudo  bash nodesource_setup.sh
+sudo  apt-get  install nodejs
 ```
-3. Поменяем владельца и группу папки для того, чтобы не root пользователи тоже имели полный доступ к ней (user поменять на имя вашего пользователя):
+3. Создайте папку c именем вашего домена (в нашем примере она будет называться "trackyourtime.ru"), которая будет являться корневой для нашего сервиса:
 ```
-sudo chown user:user /var/www/you_domain
+sudo mkdir -p /var/www/trackyourtime.ru
 ```
-4. Перейдем в папку пользователя и скачаем репозиторий с GitHub:
+4. Поменяем владельца и группу папки для того, чтобы не root пользователи тоже имели полный доступ к ней (user поменять на имя вашего пользователя):
 ```
-cd /home/user
-git clone https://github.com/timurash/timeTrackingService.git timeTrackingService
+sudo chown user:user /var/www/trackyourtime.ru
 ```
-5. Отредактируем файл "appsettings.json" для успешного доступа к БД.
+5. Перейдем в папку сервиса  и скачаем репозиторий с GitHub:
+```
+cd /var/www/trackyourtime.ru
+git clone https://github.com/timurash/timeTrackingService.git repository
+```
+6. Отредактируем файл "appsettings.json" для успешного доступа к БД.
 Для этого откроем его в редакторе Nano:
 ```
-sudo nano timeTrackingService/sources/PL/appsettings.json
+cd repository/sources/PL
+sudo nano appsettings.json
 ```
 и для параметра "DefaultConnection" впишем строку:
 ```
 Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = postgres; Password = 1234;
 ```
 При этом заменив Username и Password на собственные. 
-6. Перейдем в директорию уровня представления -- "PL" и запустим команду для сборки:
+7. Запустим команду для сборки backend части сервиса:
 ```
-cd timeTrackingService/sources/PL
-dotnet build
+sudo dotnet build
 ```
-7. Запустим команду "publish", чтобы упаковать приложение в каталог, который может выполняться на сервере:
+8. Запустим команду "publish", чтобы упаковать приложение в каталог, который сможет выполняться на сервере:
 ```
-dotnet publish
+sudo dotnet publish
 ```
-8. Перенесем полученные файлы в корневую папку нашего сервиса
+9. Теперь займемся сборкой frontend части сервиса. Перейдем в папку frontend/vue-bundle и установим все необходимые зависимости для запуска сборки frontend части:
 ```
-cd ~
-mv -v ~/home/user/timeTrackingService/sources/PL/bin/Debug/netcoreapp3.1/publish/* ~/var/www/your_domain
+cd ../../frontend/vue-bundle
+sudo npm install --unsafe-perm
 ```
-9. Настроим прокси-сервер Nginx с помощью сервер-блок файла:
+10. Теперь, когда все необходимые зависимости успешно установлены, мы можем собрать frontend build:
 ```
-sudo nano /etc/nginx/sites-available/your_domain
-```
-И заменим содержимое файла на следующий текст, при этом заменив "your_domain" на имя вашего домена:
-```
-server {
-
-    server_name your-domain  www.your-domain;
-
-   location / {
-     proxy_pass http://localhost:5000;
-     proxy_http_version 1.1;
-     proxy_set_header Upgrade $http_upgrade;
-     proxy_set_header Connection keep-alive;
-     proxy_set_header Host $host;
-     proxy_cache_bypass $http_upgrade;
-     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-     proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-
-server {
-if ($host = www.your-domain) {
-    return 301 https://$host$request_uri;
-} # managed by Certbot
-
-
-if ($host = your-domain) {
-    return 301 https://$host$request_uri;
-} # managed by Certbot
-
-
-    listen 80;
-    listen [::]:80;
-
-    server_name your-domain  www.your-domain;
-return 404; # managed by Certbot
-}
-```
-
-10. Перезагрузим Nginx:
-```
-sudo nginx -s reload
-```
-
+sudo npm run build
+``` 
 11. Воспользуемся функциональностью systemd, чтобы поддерживать сервис постоянно активным. Перейдем в директорию systemd и создадим новый файл сервиса systemd:
 ```
+cd ~
 cd /etc/systemd/system
 sudo nano timeTrackingService.service
 ```
-12. Добавим следующий текст в этот файл, заменив "your_domain" на имя вашего домена, а "user" на имя вашего пользователя:
+12. Добавим следующий текст в этот файл, заменив "user" на имя вашего пользователя:
 ```
 [Unit]
-Description=TimeTrackingService
+Description=trackyourtime
 
 [Service]
-WorkingDirectory=/var/www/your_domain
-ExecStart=/usr/bin/dotnet /var/www/your_domain/PL.dll
+WorkingDirectory=/var/www/trackyourtime.ru/repository/sources/PL
+ExecStart=/usr/bin/dotnet /var/www/trackyourtime.ru/repository/sources/PL/bin/Debug/n$
 Restart=always
 RestartSec=10
-SyslogIdentifier=timeTrackingService
-User=user
+SyslogIdentifier=trackyourtime.ru
+User=tima
 Environment=ASPNETCORE_ENVIRONMENT=Production
-Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=true
 
 [Install]
 WantedBy=multi-user.target
@@ -227,7 +194,62 @@ timeTrackingService.service - TimeTrackingService
 Loaded: loaded (/etc/systemd/system/timeTrackingService.service; enabled; vendor preset: enabled)
 Active: active (running) since Tue 2020-08-25 14:00:11 UTC; 5 days ago
 ```
-И работу сервиса можно будет проверить, перейдя в браузере по адресу [https://your.domain/user/get](https://your.domain/user/get).
+15. Настроим Nginx с помощью сервер-блок файлов. Всего у нас будут настроены 2 файла конфигурации: для frontend приложения и для backend приложения. Для начала, сконфигурируем файл конфигурации для backend приложения. Перейдем в папку, содержащую файлы конфигурации и отредактируем стандартный файл конфигурации default:
+```
+cd ~
+cd /etc/nginx/sites-available
+sudo nano default
+```
+И заменим содержимое файла на следующий текст:
+```
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name _;
+
+        location / {
+             proxy_pass http://localhost:26038;
+             proxy_http_version 1.1;
+             proxy_set_header Upgrade $http_upgrade;
+             proxy_set_header Connection keep-alive;
+             proxy_set_header Host $host;
+             proxy_cache_bypass $http_upgrade;
+             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+             proxy_set_header X-Forwarded-Proto $scheme;
+        }
+}
+```
+Теперь все запросы по IP-адресу сервера будут проксироваться на backend приложение
+
+16. Настроим файл конфигурации для frontend приложения. Для начала, создадим его:
+```
+sudo nano trackyourtime.ru
+```
+А затем внесем в него следующее содержимое:
+```
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name trackyourtime.ru www.trackyourtime.ru;
+    error_page 404 /;
+
+    location / {
+        root /var/www/trackyourtime.ru/repository/frontend/vue-bundle/dist;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+Теперь все запросы по адресу trackyourtime.ru будут обслуживаться frontend приложением
+
+17. Перезагрузим Nginx:
+```
+sudo service restart nginx
+```
+
+Работу сервиса можно будет проверить, перейдя в браузере по адресу [trackyourtime.ru](http://your.domain/).
 
 ## Установка сервиса с помощью Docker на ОС Linux
 ### Исходные данные
@@ -240,16 +262,16 @@ Active: active (running) since Tue 2020-08-25 14:00:11 UTC; 5 days ago
 ### Процесс установки
 1. Настроим прокси-сервер Nginx с помощью сервер-блок файла:
 ```
-sudo nano /etc/nginx/sites-available/your_domain
+sudo nano /etc/nginx/sites-available/trackyourtime.ru
 ```
-И заменим содержимое файла на следующий текст, при этом заменив "your_domain" на имя вашего домена:
+И заменим содержимое файла на следующий текст:
 ```
 server {
 
-    server_name your-domain  www.your-domain;
+    server_name trackyourtime.ruwww.trackyourtime.ru;
 
    location / {
-     proxy_pass http://localhost:5000;
+     proxy_pass http://localhost:26038;
      proxy_http_version 1.1;
      proxy_set_header Upgrade $http_upgrade;
      proxy_set_header Connection keep-alive;
@@ -259,34 +281,16 @@ server {
      proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-
-server {
-if ($host = www.your-domain) {
-    return 301 https://$host$request_uri;
-} # managed by Certbot
-
-
-if ($host = your-domain) {
-    return 301 https://$host$request_uri;
-} # managed by Certbot
-
-
-    listen 80;
-    listen [::]:80;
-
-    server_name your-domain  www.your-domain;
-return 404; # managed by Certbot
-}
 ```
 2. Скачаем репозиторий:
 ```
-git clone https://github.com/timurash/timeTrackingService.git timeTrackingService
+git clone https://github.com/timurash/timeTrackingService.git trackyourtime.ru
 ```
 3. Настроем строку подключения к БД в файле appsettings.json.
 
 Для этого откроем его в редакторе Nano:
 ```
-sudo nano timeTrackingService/sources/PL/appsettings.json
+sudo nano trackyourtime.ru/sources/PL/appsettings.json
 ```
 и для параметра "DefaultConnection" впишем строку:
 ```
@@ -296,17 +300,17 @@ Host = postgres; Port = 5432; Database = TimeTrackingServiceDB; Username = postg
 
 4. Перейдем в папку sources и соберем проект:
 ```
-cd timeTrackingService/sources
+cd trackyourtime.ru/sources
 ```
 ```
 docker-compose build
 ```
 5. Запустим проект:
 ```
-docker-compose --project-name=tts --file=doscker-compose.yml up -d
+docker-compose --project-name=trackyourtime --file=doscker-compose.yml up -d
 ```
 6. Если все команды выполнены успешно, то после ввода команды:
 ```
 docker ps
 ```
-Вы увидите список, состоящий из двух запущенных контейнеров (pl -- сам REST API сервис и postgres -- база данных PostgreSQL), и работу сервиса можно будет проверить, перейдя в браузере по адресу [https://your.domain/user/get](https://your.domain/user/get).
+Вы увидите список, состоящий из двух запущенных контейнеров (pl -- сам REST API сервис и postgres -- база данных PostgreSQL). Работу сервиса можно будет проверить, перейдя в браузере по адресу [trackyourtime.ru](http://trackyourtime.ru/).

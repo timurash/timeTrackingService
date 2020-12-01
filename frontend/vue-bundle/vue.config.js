@@ -13,8 +13,5 @@ module.exports = {
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
             'Access-Control-Allow-Headers': '*'
         }
-    },
-    publicPath: process.env.NODE_ENV === 'production'
-    ? '/'
-    : '/'
+    }
 };
