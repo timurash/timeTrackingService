@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  pl:
+    container_name: 'tts'
+    image: ${DOCKER_REGISTRY-}pl
+    build:
+      context: .
+      dockerfile: PL/Dockerfile
+    ports:
+      - 5000:80
+    depends_on:
+      - 'postgres'
+
+  postgres:
+    container_name: tts-postrgesql
+    image: 'postgres:11.2'
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=TimeTrackingServiceDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data/'
+
+volumes:
+  pgdata:
+    driver: local

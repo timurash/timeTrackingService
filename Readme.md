@@ -1,3 +1,4 @@
+
 # Сервис для учета отработанного времени
 
 Структура репозитория:
@@ -78,10 +79,10 @@ Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = post
 В данном примере мы будем использовать удаленный сервер на ОС Ubuntu.
 Для развертывания данного сервиса нам понадобится:
 1. Установленный Nginx сервер с отдельным сервер-блоком
-2. Настроенные A домена, указывающие на публичный IP адрес сервера
-3. Установленный Postgres
+2. Настроенные A домена, указывающие на публичный IP-адрес сервера
+3. Установленный PostgreSQL
 
-Перейдем непосредственно к установке сервиса:
+### Процесс установки
 
 1. Установка .NET Core Runtime. По очереди введите в терминал перечисленные ниже команды:
 ```
@@ -133,7 +134,7 @@ Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = post
 cd timeTrackingService/sources/PL
 dotnet build
 ```
-7. Запусим команду "publish", чтобы упаковать приложение в каталог, который может выполняться на сервере:
+7. Запустим команду "publish", чтобы упаковать приложение в каталог, который может выполняться на сервере:
 ```
 dotnet publish
 ```
@@ -183,7 +184,7 @@ return 404; # managed by Certbot
 }
 ```
 
-10. Перегзагрузим Nginx:
+10. Перезагрузим Nginx:
 ```
 sudo nginx -s reload
 ```
@@ -226,4 +227,86 @@ timeTrackingService.service - TimeTrackingService
 Loaded: loaded (/etc/systemd/system/timeTrackingService.service; enabled; vendor preset: enabled)
 Active: active (running) since Tue 2020-08-25 14:00:11 UTC; 5 days ago
 ```
-И работу сервиса можно будет проверить, перейдя в браузере по адресу [your.domain/user/get](your.domain/user/get).
+И работу сервиса можно будет проверить, перейдя в браузере по адресу [https://your.domain/user/get](https://your.domain/user/get).
+
+## Установка сервиса с помощью Docker на ОС Linux
+### Исходные данные
+В данном примере мы будем использовать удаленный сервер на ОС Ubuntu.
+Для развертывания данного сервиса нам понадобится:
+1. Установленный Nginx сервер
+2. Настроенные A домена, указывающие на публичный IP-адрес сервера
+3. Установленный Docker и Docker Compose
+
+### Процесс установки
+1. Настроим прокси-сервер Nginx с помощью сервер-блок файла:
+```
+sudo nano /etc/nginx/sites-available/your_domain
+```
+И заменим содержимое файла на следующий текст, при этом заменив "your_domain" на имя вашего домена:
+```
+server {
+
+    server_name your-domain  www.your-domain;
+
+   location / {
+     proxy_pass http://localhost:5000;
+     proxy_http_version 1.1;
+     proxy_set_header Upgrade $http_upgrade;
+     proxy_set_header Connection keep-alive;
+     proxy_set_header Host $host;
+     proxy_cache_bypass $http_upgrade;
+     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+if ($host = www.your-domain) {
+    return 301 https://$host$request_uri;
+} # managed by Certbot
+
+
+if ($host = your-domain) {
+    return 301 https://$host$request_uri;
+} # managed by Certbot
+
+
+    listen 80;
+    listen [::]:80;
+
+    server_name your-domain  www.your-domain;
+return 404; # managed by Certbot
+}
+```
+2. Скачаем репозиторий:
+```
+git clone https://github.com/timurash/timeTrackingService.git timeTrackingService
+```
+3. Настроем строку подключения к БД в файле appsettings.json.
+
+Для этого откроем его в редакторе Nano:
+```
+sudo nano timeTrackingService/sources/PL/appsettings.json
+```
+и для параметра "DefaultConnection" впишем строку:
+```
+Host = postgres; Port = 5432; Database = TimeTrackingServiceDB; Username = postgres; Password = 1234;
+```
+При этом заменив Username и Password на собственные. 
+
+4. Перейдем в папку sources и соберем проект:
+```
+cd timeTrackingService/sources
+```
+```
+docker-compose build
+```
+5. Запустим проект:
+```
+docker-compose --project-name=tts --file=doscker-compose.yml up -d
+```
+6. Если все команды выполнены успешно, то после ввода команды:
+```
+docker ps
+```
+Вы увидите список, состоящий из двух запущенных контейнеров (pl -- сам REST API сервис и postgres -- база данных PostgreSQL), и работу сервиса можно будет проверить, перейдя в браузере по адресу [https://your.domain/user/get](https://your.domain/user/get).
