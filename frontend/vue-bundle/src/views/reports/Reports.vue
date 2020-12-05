@@ -103,6 +103,7 @@ export default {
   padding: 18px 30px;
   margin-top: 90px;
   margin-bottom: 30px;
+  font-family: "Helvetica Neue", sans-serif;
 }
 .el-main {
   padding: 0;

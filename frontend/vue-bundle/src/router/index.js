@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from "vue-router";
 
-import Users from '../views/users/Users.vue'
+import Users from '../views/users/Users'
 import Reports from '../views/reports/Reports'
-import Home from '../views/home/'
+import Home from '../views/home/Home'
 import AppLayout from '../views/layouts/AppLayout'
 
 Vue.use(Router);

@@ -25,7 +25,7 @@ export default {
         async fetchReports ({commit}) {
             commit('clearError');
             commit('setLoading', true);
-            const reports = await axios.get(process.env.VUE_APP_ROOT_API + 'api/report/get');
+            const reports = await axios.get(`${process.env.VUE_APP_API_URL}/api/report/get`);
             commit('setReports', reports);
             commit('setLoading', false)
         },
@@ -33,7 +33,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const  response  =  (await axios.post(process.env.VUE_APP_ROOT_API + 'api/report/add', payload)).data;
+                const  response  =  (await axios.post(`${process.env.VUE_APP_API_URL}/api/report/add`, payload)).data;
                 showSuccessNotify(response);
             }
             catch (error)  {
@@ -47,7 +47,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.put(process.env.VUE_APP_ROOT_API + 'api/report/update', payload)).data;
+                const response = (await axios.put(`${process.env.VUE_APP_API_URL}/api/report/update`, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 commit('setError', error);
@@ -60,7 +60,7 @@ export default {
             commit('clearError');
             commit('setLoading', true);
             try {
-                const response = (await axios.delete(process.env.VUE_APP_ROOT_API + 'api/report/delete/' + payload.id, payload)).data;
+                const response = (await axios.delete(`${process.env.VUE_APP_API_URL}/api/report/delete/${payload.id}`, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
                 const response = error.response;
