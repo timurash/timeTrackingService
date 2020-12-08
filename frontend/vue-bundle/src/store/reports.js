@@ -19,7 +19,6 @@ export default {
     },
     actions: {
         async initReportsState({ dispatch }) {
-            console.log('Грузим отчеты)');
             await dispatch('fetchReports');
         },
         async fetchReports ({commit}) {
@@ -63,9 +62,7 @@ export default {
                 const response = (await axios.delete(`${process.env.VUE_APP_API_URL}/api/report/delete/${payload.id}`, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
-                const response = error.response;
                 commit('setError', error);
-                console.log(response.data.errors);
                 throw error;
             } finally {
                 commit('setLoading', false);

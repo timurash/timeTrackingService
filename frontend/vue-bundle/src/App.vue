@@ -40,3 +40,10 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.el-main {
+  padding: 0;
+}
+
+</style>

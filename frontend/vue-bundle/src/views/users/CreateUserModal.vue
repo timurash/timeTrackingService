@@ -155,7 +155,6 @@ export default {
     },
     async checkForUniqueEmail(callback) {
       await this.$store.dispatch('checkForUniqueEmail', this.form).then(() => {
-        console.log('В настоящем геттере: ' + this.$store.getters.uniqueEmail)
         if (this.$store.getters.uniqueEmail){
           callback();
         }

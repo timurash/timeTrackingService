@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-main v-loading="loading">
-      <el-row  type="flex" class="row-bg" justify="center" :md="4" :xs="8">
-        <el-card :span="6" class="box-card">
+      <el-row type="flex" class="row-bg" justify="center" :md="4" :xs="8">
+        <el-card :span="6" class="box-card" shadow="hover">
           <div class="clearfix">
-            <span style="padding: 10px 0 padding-left: 15px; padding-right: 50px;" >Отчеты</span>
+            <span style="padding: 10px 0 padding-left: 15px; padding-right: 50px;">Отчеты</span>
             <addReportModal></addReportModal>
           </div>
           <el-table
@@ -32,7 +32,7 @@
                   width="140">
                 <div class="action-buttons" slot-scope="{row}">
                   <edit-report-modal :report="row"></edit-report-modal>
-                  <span style="padding: 10px 0 padding-left: 5px; padding-right: 10px;" ></span>
+                  <span style="padding: 10px 0 padding-left: 5px; padding-right: 10px;"></span>
                   <delete-report-modal :report="row"></delete-report-modal>
                 </div>
               </el-table-column>
@@ -52,8 +52,7 @@ import 'dayjs/locale/ru'
 
 export default {
   data() {
-    return {
-    }
+    return {}
   },
   created() {
     this.$store.dispatch('initReportsState');
@@ -72,7 +71,6 @@ export default {
     deleteReportModal: DeleteReportModal
   },
   methods: {
-    // eslint-disable-next-line no-unused-vars
     formatHours(row) {
       const dayjs = require("dayjs");
       const duration = require("dayjs/plugin/duration");
@@ -92,21 +90,11 @@ export default {
 </script>
 
 <style scoped>
-.text {
-  font-size: 14px;
-}
-.item {
-  padding: 28px 0;
-}
 .box-card {
   width: 880px;
   padding: 18px 30px;
-  margin-top: 90px;
+  margin-top: 55px;
   margin-bottom: 30px;
-  font-family: "Helvetica Neue", sans-serif;
-}
-.el-main {
-  padding: 0;
 }
 
 .clearfix {
@@ -114,9 +102,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 18px 20px;
-}
-.el-card__header {
-  border-bottom: none;
 }
 
 .action-buttons {

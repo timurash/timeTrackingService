@@ -151,7 +151,6 @@ export default {
       });
     },
     async addReport() {
-      console.log(this.form);
       let dayjs = require('dayjs');
       this.form.date = dayjs();
       await  this.$store.dispatch('addReport', this.form).then(() => {

@@ -20,6 +20,7 @@
         :visible.sync="dialogVisible"
         v-loading="loading">
       <el-form
+          class="edit-report-modal"
           :model="form"
           ref="reportEditForm"
           label-position="top"
@@ -128,8 +129,6 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchUsers');
-    console.log('Вот открыли модалку и имеем');
-    console.log(this.report);
   },
   computed: {
     loading() {
@@ -158,7 +157,6 @@ export default {
       });
     },
     async updateReport() {
-      console.log(this.form);
       await  this.$store.dispatch('updateReport', this.form).then(() => {
         this.dialogVisible = false;
         this.clearFields();
@@ -172,6 +170,9 @@ export default {
 </script>
 
 <style scoped>
+.edit-report-modal {
+  font-family: "Helvetica Neue", sans-serif;
+}
 
 .el-select {
   display: block;

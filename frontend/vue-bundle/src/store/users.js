@@ -72,9 +72,7 @@ export default {
                 const response = (await axios.delete(`${process.env.VUE_APP_API_URL}/api/user/delete/${payload.id}`, payload)).data;
                 showSuccessNotify(response);
             } catch (error) {
-                const response = error.response;
                 commit('setError', error);
-                console.log(response.data.errors);
                 throw error;
             } finally {
                 commit('setLoading', false);
@@ -83,10 +81,7 @@ export default {
         async checkForUniqueEmail ({commit}, payload) {
             try {
                 let result = await axios.get(`${process.env.VUE_APP_API_URL}/api/user/checkEmail/?email=${payload.email}`, payload);
-                console.log('Запрашиваемый адрес: ' + 'api/user/checkEmail/?email=' + payload.email);
-                console.log('Result с бэка: ' + result.data );
                 commit('SET_UNIQUE_EMAIL', result.data);
-                console.log('В геттере: ' + this.uniqueEmail);
             } catch (error) {
                 commit('setError', error);
                 throw error;
