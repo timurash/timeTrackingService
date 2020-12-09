@@ -1,48 +1,51 @@
 <template>
   <section class="delete-report-modal">
     <el-button
-        @click="openModal"
-        type="danger"
-        icon="el-icon-delete"
-        width="20px"
         slot="activator"
+        icon="el-icon-delete"
+        type="danger"
+        width="20px"
+        @click="openModal"
     ></el-button>
     <el-dialog
-        title="Удаление"
-        ref=":form" label-width="12px"
-        id="eModal"
-        width="50%"
+        ref=":form"
+        :close-on-click-modal="false"
         :modal="true"
         :show-close="false"
-        :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        v-loading="loading">
-      <div class="warning">
-        <p>Вы действительно хотите удалить {{form.note}}?</p>
+        top="200px"
+        width="500px">
+      <div slot="title">
+        <h2 class="dialog-title">
+          Удаление
+        </h2>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <div class="dialog-text">
+          <span>Вы действительно хотите удалить
+            <span style="font-weight: bold">«{{ form.note }}»</span>?</span>
+      </div>
+      <div class="buttons">
         <el-button
             type="text"
-            @click="dialogVisible = false, clearFields()
-        ">Отмена</el-button>
+            @click="dialogVisible = false, clearFields()"
+          >Отмена
+        </el-button>
         <el-button
             type="danger"
             @click="deleteReport()"
-            :disabled="loading"
-            :loading="loading"
-        >Удалить</el-button>
-     </span>
+        >Удалить
+        </el-button>
+      </div>
     </el-dialog>
   </section>
 </template>
-
 
 <script>
 export default {
   props: [
     'report'
   ],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       form: {
@@ -54,13 +57,13 @@ export default {
       }
     }
   },
-  computed: {
-    loading() {
-      return this.$store.getters.loading
-    }
-  },
   methods: {
     openModal() {
+      this.form.id = this.report.id;
+      this.form.userid = this.report.userid;
+      this.form.note = this.report.note;
+      this.form.hours = this.report.hours;
+      this.form.date = this.report.date;
       this.dialogVisible = true;
     },
     clearFields() {
@@ -73,7 +76,7 @@ export default {
       }
     },
     async deleteReport() {
-      await  this.$store.dispatch('deleteReport', this.form).then(() => {
+      await this.$store.dispatch('deleteReport', this.form).then(() => {
         this.dialogVisible = false;
       })
           .catch(() => {
@@ -85,9 +88,20 @@ export default {
 </script>
 
 <style scoped>
-.warning {
-  display: flex;
-  padding: 18px 16px;
-  margin: 20px 0;
+.dialog-title {
+  font-size: 20px;
+  padding: 20px 30px 0px 20px;
+}
+
+.dialog-text {
+  font-size: 15px;
+  margin: 0 20px 0 20px;
+  word-break: normal;
+  white-space: normal;
+}
+
+.buttons {
+  padding: 20px 20px 0 40px;
+  text-align: right;
 }
 </style>

@@ -1,55 +1,68 @@
+@import '../../styles/index.scss';
+@import "~element-ui/packages/theme-chalk/src/tabs";
+@import "~element-ui/packages/theme-chalk/src/tab-pane";
+
 <template>
   <section class="adduser-modal">
     <slot :openModal="openModal">
-      <el-button
-          type="success"
-          style="float: right; padding: 10px 14px"
-          size="medium"
+      <el-button v-if="!isEdit"
           slot="activator"
+          size="medium"
+          style="float: right; padding: 10px 14px"
+          type="success"
           @click="openModal"
-      >+ Добавить</el-button>
+      >+ Добавить
+      </el-button>
+      <el-button v-if="isEdit"
+                 slot="activator"
+                 icon="el-icon-edit"
+                 type="primary"
+                 width="20px"
+                 @click="openModal"
+      ></el-button>
     </slot>
     <el-dialog
-        title="Новый пользователь"
-        label-width="12px"
-        id="eModal"
-        width="450px"
+        v-loading="loading"
+        :close-on-click-modal="true"
         :modal="true"
         :show-close="true"
-        :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        v-loading="loading"
+        width="500px"
         @close="this.clearFields"
     >
+      <div slot="title">
+        <h2 class="dialog-title">
+          {{ isEdit ? 'Изменение данных' : 'Новый пользователь' }}
+        </h2>
+      </div>
       <el-form
-          :model="form"
           ref="ruleForm"
-          label-position="top"
-          label-width="80px"
+          :model="form"
           :rules="rules"
+          class="dialog-body"
+          label-position="top"
+          label-width="10px"
           status-icon
           @submit.native.prevent="submitForm('form')"
       >
         <el-form-item
             label="Email"
-            prop="email"
-            required>
+            prop="email">
           <el-input
-              type="text"
-              step-strictly
-              placeholder="Введите Email"
-              autocomplete="off"
               v-model="form.email"
+              autocomplete="off"
+              placeholder="Введите Email"
+              step-strictly
+              type="text"
           ></el-input>
         </el-form-item>
         <el-form-item
-            label-width="20px"
             label="Фамилия"
             prop="surname"
             required>
           <el-input
-              placeholder="Введите фамилию"
               v-model="form.surname"
+              placeholder="Введите фамилию"
           ></el-input>
         </el-form-item>
         <el-form-item
@@ -57,26 +70,34 @@
             prop="firstname"
             required>
           <el-input
-              placeholder="Введите имя"
               v-model="form.firstname"
+              placeholder="Введите имя"
           ></el-input>
         </el-form-item>
         <el-form-item
             label="Отчество"
             prop="patronymic">
           <el-input
-              placeholder="Введите отчество"
               v-model="form.patronymic"
+              placeholder="Введите отчество"
           ></el-input>
         </el-form-item>
         <el-form-item class="dialog-footer">
-            <el-button type="text" @click="closeModal()">Закрыть</el-button>
-            <el-button
-                type="success"
-                @click="submitForm('ruleForm')"
-                :disabled="loading || !this.isValid"
-                :loading="loading"
-              >Создать</el-button>
+          <el-button type="text" @click="closeModal()">Закрыть</el-button>
+          <el-button v-if="!isEdit"
+              :disabled="loading"
+              :loading="loading"
+              type="success"
+              @click="submitForm('ruleForm'), createUser()"
+          >Создать
+          </el-button>
+          <el-button v-if="isEdit"
+              :disabled="loading"
+              :loading="loading"
+              type="success"
+              @click="submitForm('ruleForm'), updateUser()"
+          >Сохранить
+          </el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -85,10 +106,14 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { showErrorNotify, showInfoNotify, showSuccessNotify, showWarningNotify } from '@/utils/notify.js';
+import {showErrorNotify, showInfoNotify, showSuccessNotify, showWarningNotify} from '@/utils/notify.js';
+
 
 export default {
-  data () {
+  props: [
+    'user', 'isEdit'
+  ],
+  data() {
     let validateForSpaces = (rule, value, callback) => {
       if (value.trim() === '' && value != '') {
         callback(new Error('Пробелы не допустимы'));
@@ -96,23 +121,21 @@ export default {
         callback();
       }
     };
-    let validateForUniqueEmail = (rule, value, callback) => {
-      this.checkForUniqueEmail(callback);
-    }
     return {
       dialogVisible: false,
       isValid: true,
       form: {
+        id: 0,
         email: '',
         surname: '',
         firstname: '',
-        patronymic: ''
+        patronymic: '',
       },
       rules: {
         email: [
-          {required: true, message: 'Поле обязательно для заполнения', trigger: 'change'},
+          {required: true, message: 'Поле обязательно для заполнения'},
           {type: 'email', message: 'Пожалуйста, введите корректный e-mail адрес', trigger: 'blur'},
-          {validator: validateForUniqueEmail, trigger: 'blur'}
+          {validator: this.validateForUniqueEmail, trigger: 'blur'}
         ],
         firstname: [
           {required: true, message: 'Поле обязательно для заполнения'},
@@ -125,12 +148,12 @@ export default {
           {max: 40, message: 'Фамилия должно быть длиной не более 40 символов', trigger: 'blur'},
           {min: 2, message: 'Отчество должно быть длиной не менее 2 символов', trigger: 'blur'},
           {validator: validateForSpaces, message: 'Фамилия не должно состоять из пробелов', trigger: 'blur'}
-          ],
+        ],
         patronymic: [
           {max: 40, message: 'Фамилия должно быть длиной не более 40 символов', trigger: 'blur'},
           {min: 2, message: 'Отчество должно быть длиной не менее 2 символов', trigger: 'blur'},
           {validator: validateForSpaces, message: 'Отчество не должно состоять из пробелов', trigger: 'blur'}
-          ]
+        ]
       }
     }
   },
@@ -141,6 +164,14 @@ export default {
   },
   methods: {
     openModal() {
+      if (this.isEdit)
+      {
+        this.form.id = this.user.id;
+        this.form.email = this.user.email;
+        this.form.surname = this.user.surname;
+        this.form.firstname = this.user.firstname;
+        this.form.patronymic = this.user.patronymic;
+      }
       this.dialogVisible = true;
     },
     closeModal() {
@@ -150,33 +181,62 @@ export default {
     clearFields() {
       this.$refs.ruleForm.resetFields();
     },
-    updateIsFormValidated(field) {
-      this.isValid = this.$refs.ruleForm.validateField(field);
-    },
-    async checkForUniqueEmail(callback) {
+    async validateForUniqueEmail(rule, value, callback) {
       await this.$store.dispatch('checkForUniqueEmail', this.form).then(() => {
-        if (this.$store.getters.uniqueEmail){
+        if (this.$store.getters.uniqueEmail || (this.isEdit && (this.form.email == this.user.email))) {
           callback();
-        }
-        else {
+        } else {
           callback(new Error('Этот e-mail адрес уже занят'));
-        }});
+        }
+      });
     },
     async createUser() {
-      await  this.$store.dispatch('createUser', this.form).then(() => {
+      await this.$store.dispatch('createUser', this.form).then(() => {
         this.dialogVisible = false;
       })
-      .catch(() => {
-      });
+          .catch(() => {
+          });
+      await this.$store.dispatch('fetchUsers');
+    },
+    async updateUser() {
+      await this.$store.dispatch('updateUser', this.form).then(() => {
+        this.dialogVisible = false;
+      })
+          .catch(() => {
+          });
       await this.$store.dispatch('fetchUsers');
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.createUser()
+          this.isValid = true;
+        } else {
+          this.isValid = false;
+          return false;
         }
       });
     }
   }
 }
 </script>
+
+<style scoped>
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 20px 0px 0px 20px;
+}
+
+.dialog-body {
+  font-size: 17px;
+  margin: 0 20px 0 20px;
+  padding: 0 0 0 0;
+  word-break: normal;
+  white-space: normal;
+}
+
+.dialog-footer {
+  padding-top: 20px;
+  text-align: right;
+}
+</style>

@@ -58,7 +58,7 @@ export default {
 }
 
 .el-menu-item {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
 }
 

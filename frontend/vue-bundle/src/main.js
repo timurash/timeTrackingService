@@ -5,8 +5,8 @@ import store from './store/store';
 import ElementUI from 'element-ui'
 import VueRouter from 'vue-router'
 
-import 'element-ui/lib/theme-chalk/index.css'
 import "./styles/index.scss"; // global css
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(VueRouter);
 Vue.use(ElementUI, { locale: 'ru' });

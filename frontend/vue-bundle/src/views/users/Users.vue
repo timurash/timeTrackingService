@@ -4,10 +4,11 @@
       <el-row  type="flex" class="row-bg" justify="center" :md="4" :xs="8">
         <el-card :span="6" class="box-card" shadow="hover">
           <div class="clearfix">
-            <span style="padding: 10px 0 padding-left: 15px; padding-right: 50px;" >Пользователи</span>
-            <createCreateUserModal></createCreateUserModal>
+            <span style="font-size: 18px; font-weight: 500" >Пользователи</span>
+            <userModal :isEdit="false"></userModal>
           </div>
           <el-table
+              :header-cell-class-name="headerCellStyle"
               :data=usersAll.data
               ref="table">
             <slot name="columns">
@@ -33,8 +34,8 @@
                   label="Действия"
                   width="140">
                 <div class="action-buttons" slot-scope="{row}">
-                  <edit-user-modal :user="row"></edit-user-modal>
-                  <span style="padding: 10px 0 padding-left: 5px; padding-right: 10px;" ></span>
+                  <userModal :user="row" :isEdit="true"></userModal>
+                  <span style="padding: 0 15px 0 0" ></span>
                   <delete-user-modal :user="row"></delete-user-modal>
                 </div>
               </el-table-column>
@@ -47,8 +48,7 @@
 </template>
 
 <script>
-import CreateUserModal from './CreateUserModal.vue'
-import EditUseRModal from "./EditUserModal";
+import UserModal from './UserModal.vue'
 import DeleteUserModal from "./DeleteUserModal";
 
 export default {
@@ -68,17 +68,24 @@ export default {
     }
   },
   components: {
-    createCreateUserModal: CreateUserModal,
-    editUserModal: EditUseRModal,
+    userModal: UserModal,
     deleteUserModal: DeleteUserModal
-  }
+  },
+  methods: {
+    headerCellStyle({columnIndex}) {
+      if (columnIndex == 4)
+      {
+        return "actions-column";
+      }
+    }
+  },
 }
 </script>
 
 <style scoped>
 .box-card {
   width: 880px;
-  padding: 18px 30px;
+  padding: 0px 30px;
   margin-top: 55px;
   margin-bottom: 30px;
 }
@@ -86,11 +93,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 20px;
+  padding: 10px 0px 30px 10px;
 }
 .action-buttons {
   white-space: nowrap;
   display: flex;
+  text-align: left;
 }
 </style>
 

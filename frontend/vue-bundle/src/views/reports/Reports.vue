@@ -4,10 +4,11 @@
       <el-row type="flex" class="row-bg" justify="center" :md="4" :xs="8">
         <el-card :span="6" class="box-card" shadow="hover">
           <div class="clearfix">
-            <span style="padding: 10px 0 padding-left: 15px; padding-right: 50px;">Отчеты</span>
-            <addReportModal></addReportModal>
+            <span style="font-size: 18px; font-weight: 500">Отчеты</span>
+            <reportModal :isEdit="false"></reportModal>
           </div>
           <el-table
+              :header-cell-class-name="headerCellStyle"
               :data=reportsAll.data
               ref="table">
             <slot name="columns">
@@ -31,8 +32,8 @@
                   label="Действия"
                   width="140">
                 <div class="action-buttons" slot-scope="{row}">
-                  <edit-report-modal :report="row"></edit-report-modal>
-                  <span style="padding: 10px 0 padding-left: 5px; padding-right: 10px;"></span>
+                  <reportModal :report="row" :isEdit="true"></reportModal>
+                  <span style="padding: 0 15px 0 0" ></span>
                   <delete-report-modal :report="row"></delete-report-modal>
                 </div>
               </el-table-column>
@@ -45,9 +46,8 @@
 </template>
 
 <script>
-import EditReportModal from "./EditReportModal";
 import DeleteReportModal from "./DeleteReportModal";
-import AddReportModal from "./AddReportModal";
+import ReportModal from "./ReportModal";
 import 'dayjs/locale/ru'
 
 export default {
@@ -66,8 +66,7 @@ export default {
     }
   },
   components: {
-    addReportModal: AddReportModal,
-    editReportModal: EditReportModal,
+    reportModal: ReportModal,
     deleteReportModal: DeleteReportModal
   },
   methods: {
@@ -84,29 +83,40 @@ export default {
     formatDate(row) {
       let dayjs = require('dayjs');
       return dayjs(row.date).format('DD.MM.YYYY');
+    },
+    headerCellStyle({columnIndex}) {
+      if (columnIndex == 3)
+      {
+        return "actions-column";
+      }
     }
   }
 }
 </script>
 
+<style>
+
+.actions-column {
+  text-align: right!important;
+}
+</style>
+
 <style scoped>
 .box-card {
   width: 880px;
-  padding: 18px 30px;
+  padding: 0px 30px;
   margin-top: 55px;
   margin-bottom: 30px;
 }
-
 .clearfix {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 20px;
+  padding: 10px 0px 30px 10px;
 }
-
 .action-buttons {
   white-space: nowrap;
   display: flex;
+  text-align: left;
 }
 </style>
-

@@ -36,7 +36,7 @@ export default {
             commit('setLoading', true);
             const users = await axios.get(`${process.env.VUE_APP_API_URL}/api/user/get/`);
             commit('setUsers', users);
-            commit('setLoading', false)
+            commit('setLoading', false);
         },
         async createUser ({commit}, payload) {
             commit('clearError');

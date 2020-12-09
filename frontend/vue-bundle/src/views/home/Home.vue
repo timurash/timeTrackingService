@@ -43,14 +43,10 @@
 export default {}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .text {
   margin-bottom: 12px;
   margin-top: 12px;
-}
-
-#logo.el-menu-item.is-active {
-  border-bottom-color: red;
 }
 
 .h1-text {
@@ -68,13 +64,6 @@ export default {}
   margin-bottom: 10px;
 }
 
-.el-header {
-  height: 20px;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  font-size: 15px;
-}
-
 .el-main {
   margin-bottom: 10px;
   font-size: 16px;
@@ -84,14 +73,6 @@ export default {}
 .el-card {
   margin-top: 40px;
   width:800px;
-}
-
-.el-row {
-  margin-bottom: 60px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
 .box-card {
@@ -104,8 +85,4 @@ export default {}
   font-size: 18px;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
 </style>
