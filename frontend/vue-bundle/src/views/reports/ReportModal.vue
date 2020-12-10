@@ -38,23 +38,23 @@
           label-position="top"
           label-width="120px"
           status-icon>
-        <el-col :span="15">
         <el-form-item
             label="Пользователь"
-            prop="userid"
-            required>
+            prop="userid">
           <el-select
-              v-model="form.userid"
+              v-model="form.user"
+              value-key="id"
+              style="width: 100%"
+              @change="updateUserId()"
               placeholder="Выберите пользователя">
             <el-option
                 v-for="user in usersAll.data"
                        :key="user.id"
                        :label="user.surname + ' ' + user.firstname + ' ' + user.patronymic"
-                       :value="user.id">
+                       :value="user">
             </el-option>
           </el-select>
         </el-form-item>
-        </el-col>
         <el-form-item
             label="Примечание"
             prop="note"
@@ -127,7 +127,8 @@ export default {
         userid: null,
         note: null,
         hours: null,
-        date: null
+        date: null,
+        user: {},
       },
       rules: {
         userid: [
@@ -160,12 +161,16 @@ export default {
       if (this.isEdit)
       {
         this.form.id = this.report.id;
-        this.form.userid = this.report.userid;
         this.form.note = this.report.note;
         this.form.hours = this.report.hours;
         this.form.date = this.report.date;
+        this.form.user = this.usersAll.data.find(x => x.id === this.report.userId);
+        this.form.userid = this.form.user.id;
       }
       this.dialogVisible = true;
+    },
+    updateUserId() {
+      this.form.userid = this.form.user.id;
     },
     closeModal() {
       this.dialogVisible = false;
@@ -173,11 +178,6 @@ export default {
     },
     clearFields() {
       this.$refs.reportForm.resetFields();
-      // this.form.id = null;
-      // this.form.userid = null;
-      // this.form.note = null;
-      // this.form.hours = null;
-      // this.form.date = null;
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

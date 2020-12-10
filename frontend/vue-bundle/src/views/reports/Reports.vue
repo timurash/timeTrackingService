@@ -71,12 +71,23 @@ export default {
   },
   methods: {
     formatHours(row) {
+      let thresholds = [
+        { l: 'h', r: 1 },
+        { l: 'hh', r: 24, d: 'hour' }
+      ];
+      let rounding = Math.floor
+
+      const config = {
+        thresholds: thresholds,
+        rounding: rounding
+      }
+
       const dayjs = require("dayjs");
       const duration = require("dayjs/plugin/duration");
       const relativeTime = require('dayjs/plugin/relativeTime');
 
       dayjs.extend(duration);
-      dayjs.extend(relativeTime);
+      dayjs.extend(relativeTime, config);
 
       return dayjs.duration(row.hours, "hours").locale("ru").humanize();
     },
@@ -95,7 +106,6 @@ export default {
 </script>
 
 <style>
-
 .actions-column {
   text-align: right!important;
 }

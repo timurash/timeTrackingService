@@ -80,7 +80,7 @@ Host = localhost; Port = 5432; Database = TimeTrackingServiceDB; Username = post
 В данном примере мы будем использовать удаленный сервер на ОС Ubuntu.
 Для развертывания сервиса нам понадобится:
 1. Установленный Nginx
-2. Настроенные A домена, указывающие на публичный IP-адрес сервера
+2. 2 настроенных A домена, указывающих на публичный IP-адрес сервера
 3. Установленный PostgreSQL
 
 ### Процесс установки
@@ -194,19 +194,16 @@ timeTrackingService.service - TimeTrackingService
 Loaded: loaded (/etc/systemd/system/timeTrackingService.service; enabled; vendor preset: enabled)
 Active: active (running) since Tue 2020-08-25 14:00:11 UTC; 5 days ago
 ```
-15. Настроим Nginx с помощью сервер-блок файлов. Всего у нас будут настроены 2 файла конфигурации: для frontend приложения и для backend приложения. Для начала, сконфигурируем файл конфигурации для backend приложения. Перейдем в папку, содержащую файлы конфигурации и отредактируем стандартный файл конфигурации default:
+15. Настроим Nginx с помощью сервер-блок файлов. Всего у нас будут настроены 2 файла конфигурации: для frontend приложения и для backend приложения. Для начала, сконфигурируем файл конфигурации для backend приложения. Перейдем в папку, содержащую файлы конфигурации и создадим новый файл конфигурации:
 ```
 cd ~
 cd /etc/nginx/sites-available
-sudo nano default
+sudo nano api.trackyourtime.ru
 ```
 И заменим содержимое файла на следующий текст:
 ```
 server {
-        listen 80;
-        listen [::]:80;
-
-        server_name _;
+        server_name api.trackyourtime.ru www.api.trackyourtime.ru;
 
         location / {
              proxy_pass http://localhost:26038;
@@ -220,7 +217,7 @@ server {
         }
 }
 ```
-Теперь все запросы по IP-адресу сервера будут проксироваться на backend приложение
+Теперь все запросы к домену api.trackyourtime.ru будут проксироваться на backend приложение
 
 16. Настроим файл конфигурации для frontend приложения. Для начала, создадим его:
 ```
@@ -249,7 +246,7 @@ server {
 sudo service restart nginx
 ```
 
-Работу сервиса можно будет проверить, перейдя в браузере по адресу [trackyourtime.ru](http://your.domain/).
+Работу сервиса можно будет проверить, перейдя в браузере по адресу [trackyourtime.ru](http://trackyourtime.ru/).
 
 ## Установка сервиса с помощью Docker на ОС Linux
 ### Исходные данные

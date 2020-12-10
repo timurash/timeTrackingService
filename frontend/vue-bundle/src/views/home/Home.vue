@@ -39,10 +39,6 @@
   </el-row>
 </template>
 
-<script>
-export default {}
-</script>
-
 <style scoped>
 .text {
   margin-bottom: 12px;
@@ -62,12 +58,6 @@ export default {}
 .enum {
   margin-left: 15px;
   margin-bottom: 10px;
-}
-
-.el-main {
-  margin-bottom: 10px;
-  font-size: 16px;
-  padding: 10px 20px 20px 20px;
 }
 
 .el-card {
