@@ -23,7 +23,7 @@ namespace DAL.Repositories
         /// </summary>
         public IEnumerable<User> GetAll()
         {
-            return db.Users;
+            return db.Users.OrderBy(user => user.Id);
         }
 
         /// <summary>
@@ -70,6 +70,15 @@ namespace DAL.Repositories
         public User Find(string email)
         {
             return db.Users.Where(p => p.Email == email).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Проверка уникальности E-mail при создании пользователя
+        /// </summary>
+        public bool CheckForUniqueEmail(string email)
+        {
+            var result = db.Users.Where(p => p.Email == email).ToList();
+            return result.Count() == 0;
         }
     }
 }

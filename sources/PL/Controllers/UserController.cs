@@ -8,6 +8,7 @@ using Serilog;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 namespace PL.Controllers
 {
@@ -17,7 +18,8 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка всех пользователей.
     /// </summary>
     [ApiController]
-    [Route("user")]
+    [EnableCors]
+    [Route("api/user")]
     public class UserController : Controller
     {
         IUserService userService;
@@ -44,7 +46,7 @@ namespace PL.Controllers
 
                     if (serviceResult.IsValid == true)
                     {
-                        return Ok("Пользователь успешно создан.");
+                        return Json("Пользователь успешно создан");
                     }
                     else
                     {
@@ -60,7 +62,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + userDTO.GetValueString());
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -78,7 +80,7 @@ namespace PL.Controllers
 
                     if (serviceResult.IsValid == true)
                     {
-                        return Ok("Данные о пользователе успешно обновлены.");
+                        return Json("Данные о пользователе успешно обновлены");
                     }
                     else
                     {
@@ -94,7 +96,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + userDTO.GetValueString());
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -110,7 +112,7 @@ namespace PL.Controllers
 
                 if (serviceResult.IsValid == true)
                 {
-                    return Ok("Пользователь успешно удален.");
+                    return Json("Пользователь успешно удален.");
                 }
                 else
                 {
@@ -121,7 +123,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + $"Id = {id}");
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -138,12 +140,31 @@ namespace PL.Controllers
 
                 IEnumerable<UserViewModel> users = _mapper.Map<IEnumerable<UserViewModel>>(userDTOs);
 
-                return Ok(users);
+                return Json(users);
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
+            }
+        }
+
+        /// <summary>
+        /// Проверка уникальности E-mail адреса при создании пользователя
+        /// </summary>
+        [HttpGet("checkEmail")]
+        public ActionResult CheckForUniqueEmail([FromQuery] string email)
+        {
+            try
+            {
+                bool result = userService.CheckForUniqueEmail(email);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
     }

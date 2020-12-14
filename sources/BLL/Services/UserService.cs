@@ -97,6 +97,12 @@ namespace BLL.Services
             return users;
         }
 
+        public bool CheckForUniqueEmail(string email)
+        {
+            bool result = Database.Users.CheckForUniqueEmail(email);
+            return result;
+        }
+
         public void Dispose()
         {
             Database.Dispose();

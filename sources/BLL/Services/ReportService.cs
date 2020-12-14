@@ -91,15 +91,27 @@ namespace BLL.Services
         /// </summary>
         public GetReportsByDateDTO Get(ReportFilterDTO reportFilterDTO)
         {
-            User user = Database.Users.Get(reportFilterDTO.UserId.Value);
+            if (reportFilterDTO.UserId == null)
+            {
+                var allReports = Database.Reports.GetAllReports();
+                return new GetReportsByDateDTO(_mapper.Map<IEnumerable<ReportDTO>>(allReports));
+            }
+            else if (reportFilterDTO.Month == null || reportFilterDTO.Year == null)
+            {
+                User user = Database.Users.Get(reportFilterDTO.UserId.Value);
 
-            if (user == null)
-                return new GetReportsByDateDTO("Пользователь не найден.");
+                if (user == null)
+                    return new GetReportsByDateDTO("Пользователь не найден.");
 
-            var reports = Database.Reports.GetByUserAndDate(reportFilterDTO.UserId.Value, reportFilterDTO.Month.Value, reportFilterDTO.Year.Value);
+                var userReports = Database.Reports.GetByUserId(reportFilterDTO.UserId);
+                return new GetReportsByDateDTO(_mapper.Map<IEnumerable<ReportDTO>>(userReports));
+            }
+            else
+            {
+                var reports = Database.Reports.GetByUserAndDate(reportFilterDTO.UserId.Value, reportFilterDTO.Month.Value, reportFilterDTO.Year.Value);
 
-            GetReportsByDateDTO result = new GetReportsByDateDTO(_mapper.Map<IEnumerable<ReportDTO>>(reports));
-            return result;
+                return new GetReportsByDateDTO(_mapper.Map<IEnumerable<ReportDTO>>(reports));
+            }
         }
 
         public void Dispose()

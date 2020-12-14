@@ -10,6 +10,7 @@ namespace DAL.Interfaces
         void DeleteByUser(int userId);
         T GetById(int id);
         IEnumerable<T> GetByUserAndDate(int userId, int month, int year);
-        IEnumerable<T> GetByUserId(int userId);
+        IEnumerable<T> GetByUserId(int? userId);
+        IEnumerable<T> GetAllReports();
     }
 }
