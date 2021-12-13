@@ -6,8 +6,8 @@ using AutoMapper;
 using PL.Models;
 using System;
 using Serilog;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 namespace PL.Controllers
 {
@@ -17,7 +17,8 @@ namespace PL.Controllers
     /// Так же имеет метод получения списка отчетов определенного пользователя за конкретный месяц.
     /// </summary>
     [ApiController]
-    [Route("report")]
+    [EnableCors]
+    [Route("api/report")]
     public class ReportController : Controller
     {
         readonly IReportService reportService;
@@ -44,7 +45,7 @@ namespace PL.Controllers
 
                     if(serviceResult.IsValid == true)
                     {
-                        return Ok("Отчет успешно добавлен.");
+                        return Json("Отчет успешно добавлен");
                     }
                     else
                     {
@@ -60,7 +61,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + reportDTO.GetValueString());
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -77,7 +78,7 @@ namespace PL.Controllers
                     ServiceResultDTO serviceResult = reportService.UpdateReport(reportDTO);
                     if (serviceResult.IsValid == true)
                     {
-                        return Ok("Отчет успешно обновлен.");
+                        return Json("Отчет успешно обновлен");
                     }
                     else
                     {
@@ -93,7 +94,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + reportDTO.GetValueString());
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -109,7 +110,7 @@ namespace PL.Controllers
 
                 if (serviceResult.IsValid == true)
                 {
-                    return Ok("Отчет успешно удален.");
+                    return Json("Отчет успешно удален");
                 }
                 else
                 {
@@ -120,7 +121,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + $" Id = {id}");
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
 
@@ -157,7 +158,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.Message + reportFilterDTO.GetValueString());
-                return BadRequest("Произошла неизвестная ошибка.");
+                return BadRequest("Произошла неизвестная ошибка");
             }
         }
     }

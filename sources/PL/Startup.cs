@@ -79,10 +79,15 @@ namespace PL
             services.AddSingleton(mapper);
 
             services.AddAutoMapper(typeof(UserViewProfile), typeof(ReportViewProfile));
+
+            services.AddCors();
+
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -95,6 +100,13 @@ namespace PL
             app.UseDeveloperExceptionPage();
 
             app.UseRouting();
+
+            app.UseCors(
+                builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+            );
 
             app.UseEndpoints(endpoints =>
             {

@@ -10,5 +10,6 @@ namespace BLL.Interfaces
         ServiceResultDTO DeleteUser(int? userID);
         IEnumerable<UserDTO> GetUsers();
         void Dispose();
+        bool CheckForUniqueEmail(string email);
     }
 }

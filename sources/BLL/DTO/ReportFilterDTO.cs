@@ -10,19 +10,19 @@ namespace BLL.DTO
         /// <summary>
         /// Id пользователя, отчеты которого необходимо предоставить.
         /// </summary>
-        [Required (ErrorMessage = "Id пользователя является обязательным полем.")]
+        //[Required (ErrorMessage = "Id пользователя является обязательным полем.")]
         public int? UserId { get; set; }
 
         /// <summary>
         /// Месяц, за который необходимо предоставить отчеты.
         /// </summary>
-        [Required(ErrorMessage = "Месяц является обязательным поле.")]
+        //[Required(ErrorMessage = "Месяц является обязательным поле.")]
         public int? Month { get; set; }
 
         /// <summary>
         /// Год, за который необходимо предоставить отчеты.
         /// </summary>
-        [Required(ErrorMessage = "Год является обязательным полем.")]
+        //[Required(ErrorMessage = "Год является обязательным полем.")]
         public int? Year { get; set; }
 
         /// <summary>
